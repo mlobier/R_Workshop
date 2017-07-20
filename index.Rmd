@@ -39,20 +39,20 @@ knit        : slidify::knit2slides
 
 ## Problem to solve Nb 1
 
-You have run the following experiment and acquired a bunch of behavioral data. 
+You have run the following experiment and acquired a bunch of behavioral data. All this nice data now needs to be analyzed.
 
-<iframe src='../01/assets/img/layout_slide.svg' width=800px height=250px>
+<iframe src='./assets/img/session_1_paradigm.png'>
 </iframe> 
-
-Now all this nice data needs to be analyzed 
 
 ---
 
 # Is this a slide too ?
 
+The data is located in  E:\attentionPerception\_2017AlphaSynchAttention\data\behav. 
+
 ```{r}
 
-f<-c(1:5)
+
 
 ```
 
