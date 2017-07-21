@@ -48,20 +48,19 @@
     <h2>Introduction to R for data analysis and visualization</h2>
   </hgroup>
   <article data-timings="">
-    <h3>What will we learn to do in this worshop:</h3>
+    <h3>Workshop agenda</h3>
 
 <ul>
-<li>How to import, clean up and transform data</li>
-<li>How to visualize data and make publication ready figures</li>
-<li>How to run simple inferential statistical analyses</li>
-<li>How to run less-simple inferential statistical analyses</li>
-</ul>
-
-<h3>What we won&#39;t learn:</h3>
+<li><p>Scientific data analysis should: </p>
 
 <ul>
-<li>Everything there is to know about R</li>
-<li>Advanced R programming</li>
+<li>be reproducible </li>
+<li>by me</li>
+<li>by others (if given my code and data)</li>
+<li>follow rigorous statistical standards</li>
+<li>use open tools </li>
+</ul></li>
+<li><p>R is a great way to achieve this</p></li>
 </ul>
 
   </article>
@@ -70,31 +69,57 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Instructor priors</h2>
+    <h2>Introduction to R for data analysis and visualization</h2>
   </hgroup>
   <article data-timings="">
-    <ul>
-<li>Data analysis should be reproducible - and R is a great way to achieve this</li>
-<li>Learning the most efficient tools first is more ... efficient</li>
-<li>Learning to solve problems is more fun </li>
-<li>The tidyverse and ggplot are awesome</li>
+    <h3>Overarching objective:</h3>
+
+<ul>
+<li>Be able to use R and R-studio to:
+
+<ul>
+<li>establish a reproducible and documented data-analysis pipeline</li>
+</ul></li>
+</ul>
+
+<h3>Specific Learning goals:</h3>
+
+<ul>
+<li>How to structure a data analysis project</li>
+<li>How to import, clean up and transform data</li>
+<li>How to visualize data and make publication ready figures</li>
+<li>How to run simple inferential statistical analyses</li>
+<li>How to run less-simple inferential statistical analyses</li>
 </ul>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-3" style="background:;">
+<slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Problem to solve Nb 1</h2>
+    <h2>Introduction to R for data analysis and visualization</h2>
   </hgroup>
   <article data-timings="">
-    <p>You have run the following experiment and acquired a bunch of behavioral data. </p>
+    <h3>Insctructor&#39;s philosophy and priors:</h3>
 
-<iframe src='../01/assets/img/layout_slide.svg' width=800px height=250px>
-</iframe> 
+<ul>
+<li>Learning the most efficient tools first is more ... efficient</li>
+<li>Learning to solve problems is more efficient than:
 
-<p>Now all this nice data needs to be analyzed </p>
+<ul>
+<li>reading code written by someone else to solve a fake problem</li>
+<li>listening to the instructor drone on and on and make bad jokes</li>
+</ul></li>
+<li>The tidyverse and ggplot are awesome</li>
+</ul>
+
+<h3>What this workshop is not:</h3>
+
+<ul>
+<li>A complete overview of all that R can do</li>
+<li>An R programming course</li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -102,17 +127,322 @@
 
 <slide class="" id="slide-4" style="background:;">
   <hgroup>
-    <h1>Is this a slide too ?</h1>
+    <h2>Session 1 - Learning goals</h2>
   </hgroup>
   <article data-timings="">
-    <pre><code class="r">f&lt;-c(1:5)
-</code></pre>
+    <ul>
+<li>Using R-Studio</li>
+<li>How to structure a data analysis project</li>
+<li>Importing Data</li>
+<li>What is Tidy data</li>
+<li>Transforming and restructuring data</li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
 <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>R-studio</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>So let&#39;s start by opening R-Studio !!</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>R-studio and R-Notebooks</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Now let&#39;s create a notebook.
+Notebooks are great because you can:</p>
+
+<ul>
+<li>mix text and code in the same document</li>
+<li>execute blocks of code sequentially </li>
+</ul>
+
+<iframe src='./assets/img/session_1_RNotebook.png'>
+</iframe> 
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Problem to solve Nb 1</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We have acquired data on a Posner-like stimulus detection and discrimination task. </p>
+
+<div style='float:left;width:48%;' class='centered'>
+  <iframe src='./assets/img/session_1_paradigm.png'>
+</iframe> 
+
+</div>
+<div style='float:right;width:48%;'>
+  <p>Independent variables: </p>
+
+<ul>
+<li>Attention :
+
+<ul>
+<li>Left / Right</li>
+</ul></li>
+<li>Stimulus contrast :
+
+<ul>
+<li>Low / High</li>
+</ul></li>
+<li>Stimulus validity:
+
+<ul>
+<li>Valid / Invalid</li>
+</ul></li>
+</ul>
+
+<p>Dependent variables:</p>
+
+<ul>
+<li>RT</li>
+<li>Detection rate</li>
+<li>Discrimination rate</li>
+</ul>
+
+</div>
+<div>
+  
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>The problem we want to solve</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Go from this:</p>
+
+<iframe src='./assets/img/session_1_folders.png'>
+</iframe> 
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>The problem we want to solve</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>To this:</p>
+
+<iframe src='./assets/img/session_1_final_objective.svg'>
+</iframe> 
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Step 1: create a project folder structure</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Project directories should be organized consistently and methodically. My preferred structure would be:</p>
+
+<p>project_name/ (root directory)</p>
+
+<ul>
+<li>name_of_analysis.Rmd (Rnotebook with main analysis code)</li>
+<li>R/ (fproject-specific R function files)</li>
+<li>data/ (original data - READ ONLY)</li>
+<li>figs/ (figures generated by my code)</li>
+<li>output/ (processed or simulated data, other non-final output )</li>
+</ul>
+
+<p><strong>Create your own project directory structure now</strong></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Step 2: create R Notebook for our analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Notebooks are great because you can:</p>
+
+<ul>
+<li>combine text and code in the same document</li>
+<li>execute blocks of code sequentially to build your analysis step by step</li>
+<li>save the ouput as:
+
+<ul>
+<li>a notebook file .nb.html</li>
+<li>a browser-friendly html file (or pdf, word....)</li>
+</ul></li>
+</ul>
+
+<iframe src='./assets/img/session_1_RNotebook.png'>
+</iframe> 
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Step 2: create R Notebook for our analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p><strong>Save your R notebook in your project root directory</strong></p></li>
+<li><p>Remember to modify the title of the notebook header to a descriptive title</p></li>
+<li><p>You can </p>
+
+<ul>
+<li>execute a chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Ctrl+Shift+Enter</em>. </li>
+<li>add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Ctrl+Alt+I</em></li>
+<li>preview the ouput files by pressing preview</li>
+</ul></li>
+<li><p>R notebooks use Markdown syntax. A helful cheatsheet is here.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Step 3: Download the data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Dowload the data from google drive to a /data/behav/ directory.</p></li>
+<li><p>Remember to have a different folder for each subject.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Step 4: Let&#39;s import some data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>First we load the tidyverse library</p></li>
+<li><p>What is tidyverse? It&#39;s <strong>AWESOME</strong> as you can see <a href="http://tidyverse.org/">here</a></p></li>
+</ul>
+
+<p>So we first load the tidyverse library which will load most of the &#39;verse...</p>
+
+<pre><code class="r">library(tidyverse)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Step 4: Let&#39;s import some data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In the <code>data\Exercises\session_1</code> directory, there are several versions of the same data file.</p>
+
+<ul>
+<li><p>These files can all be read by one of the following readr functions with the proper parameters:</p>
+
+<ul>
+<li><code>read_csv()</code>  -  <code>read_csv2()</code>  - <code>read_tsv()</code>  - <code>read_delim()</code></li>
+</ul></li>
+<li><p>For example, data_1.csv is a standard <em>comma-separated</em> flat data file and can be read by read_csv()</p>
+
+<ul>
+<li>We <strong>assign</strong> the data to a variable  <em>data_1</em> using the <code>&lt;-</code> operator</li>
+<li><em>data</em> should now have appeared in the top-right <strong>Environment</strong> pane</li>
+</ul></li>
+</ul>
+
+<pre><code class="r">data_1&lt;-read_csv(&quot;data/Exercises/session_1/data_1.csv&quot;)
+
+data_1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Step 4: Let&#39;s import some data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Did it work ?</p>
+
+<p>Does the data structure look reasonable??</p>
+
+<pre><code class="r">data_1&lt;-read_csv(&quot;data/Exercises/session_1/data_1.csv&quot;)
+
+data_1
+</code></pre>
+
+<pre><code>## # A tibble: 51 x 18
+##    trialNb cuedHemifield  cueValidity       taskType stimType stimDuration
+##      &lt;int&gt;         &lt;chr&gt;        &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;
+##  1       0         right   consistent      detection    stim1       0.0999
+##  2       1          left   consistent discrimination    stim1       0.0999
+##  3       2         right   consistent      detection    stim1       0.0999
+##  4       3          left inconsistent      detection    stim1       0.0982
+##  5       4          left   consistent      detection    stim1       0.0982
+##  6       5          left   consistent      detection    stim2       0.0999
+##  7       6         right   consistent      detection    stim2       0.0999
+##  8       7          left   consistent      detection    stim2       0.0999
+##  9       8         right   consistent      detection    stim2       0.0999
+## 10       9         right   consistent discrimination    stim1       0.0999
+## # ... with 41 more rows, and 12 more variables: stimOnset &lt;dbl&gt;,
+## #   trialNb_1 &lt;int&gt;, detectionAccuracy &lt;chr&gt;,
+## #   discriminationAccuracy &lt;chr&gt;, responseRT &lt;dbl&gt;, visibility &lt;chr&gt;,
+## #   visibilityRT &lt;dbl&gt;, stimSOA &lt;dbl&gt;, artifact &lt;chr&gt;, noise50Hz &lt;chr&gt;,
+## #   saccades &lt;chr&gt;, blinks &lt;chr&gt;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Step 4: Let&#39;s import some data</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Now try to find the appropriate function and parameters to import the other files.</p>
+
+<ul>
+<li><code>read_csv()</code>  -  <code>read_csv2()</code>  - <code>read_tsv()</code>  - <code>read_delim()</code></li>
+</ul></li>
+<li><p>Use the help function in the <em>console</em> to understand the difference between these functions. </p></li>
+</ul>
+
+<pre><code class="r">?read_csv()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
   <article data-timings="">
     
   </article>
@@ -131,26 +461,104 @@
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Instructor priors'>
+        data-slide=2 title='Introduction to R for data analysis and visualization'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='Problem to solve Nb 1'>
+        data-slide=3 title='Introduction to R for data analysis and visualization'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Is this a slide too ?'>
+        data-slide=4 title='Session 1 - Learning goals'>
          4
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='NA'>
+        data-slide=5 title='R-studio'>
          5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='R-studio and R-Notebooks'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Problem to solve Nb 1'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='The problem we want to solve'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='The problem we want to solve'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Step 1: create a project folder structure'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Step 2: create R Notebook for our analysis'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Step 2: create R Notebook for our analysis'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Step 3: Download the data'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Step 4: Let&#39;s import some data'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Step 4: Let&#39;s import some data'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Step 4: Let&#39;s import some data'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Step 4: Let&#39;s import some data'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='NA'>
+         18
       </a>
     </li>
   </ul>
