@@ -63,6 +63,7 @@ knit        : slidify::knit2slides
 ## Session 1 - Learning goals
 
 * Using R-Studio
+* R scripts
 * How to structure a data analysis project
 * Importing Data
 * What is Tidy data
@@ -199,7 +200,7 @@ Everybody goes to Create File, new R note Book
 
 ---
 
-## Step 4: Let's import some data
+## Importing data
 
 
 * First we load the tidyverse library
@@ -213,54 +214,188 @@ library(tidyverse)
 
 ---
 
-## Step 4: Let's import some data
+## Importing data
 
-In the `data\Exercises\session_1` directory, there are several versions of the same data file.
+In the `R_Workshop_exercises` directory, open the `importing_csv_files.R' script.
+
+* Carry out PART 1
+
+
+---
+
+## Importing data
+
+In the `data\exercises\session_1` directory, there are several data files.
+
+```{r}
+list.files("data/exercises/session_1")
+```
 
 * These files can all be read by one of the following readr functions with the proper parameters:
 
   * `read_csv()`  -  `read_csv2()`  - `read_tsv()`  - `read_delim()`
+  
+1. Use the help function ? to see the difference between these functions 
+2. Open the data_1.csv file with a text editor to figure our the best function 
+3. Try to import data_1.csv into variable data_1 `data_1<-read_xxx()`     
+4. look at the **Environment** tab in the upper right pane to see what your data looks like
 
-* For example, data_1.csv is a standard *comma-separated* flat data file and can be read by read_csv()
+---
+
+## Importing data
+
+* Data_1.csv is a standard *comma-separated* flat data file 
+  * We can use `read_csv()` to import it
   * We **assign** the data to a variable  *data_1* using the `<-` operator
-  * *data* should now have appeared in the top-right **Environment** pane
+  * *data_1* should now have appeared in the top-right **Environment** pane
 
 
 ```{r, eval=FALSE}
 data_1<-read_csv("data/Exercises/session_1/data_1.csv")
 
-data_1
 ```
 
 ---
 
-## Step 4: Let's import some data
 
-Did it work ?
 
-Does the data structure look reasonable??
+## Importing data
 
+```{r, eval=TRUE, warning=FALSE}
+data_1<-read_csv("data/Exercises/session_1/data_1.csv")
+```
+
+---
+
+## Importing data
+
+```{r, eval=TRUE, message=FALSE}
+data_1<-read_csv("data/Exercises/session_1/data_1.csv")
+```
+
+---
+
+## Importing data
 
 ```{r, eval=TRUE, warning=FALSE, message=FALSE}
 data_1<-read_csv("data/Exercises/session_1/data_1.csv")
-
 data_1
 ```
 
 ---
 
-## Step 4: Let's import some data
+## Importing data - Dataframes or tibbles
 
-* Now try to find the appropriate function and parameters to import the other files.
-  * `read_csv()`  -  `read_csv2()`  - `read_tsv()`  - `read_delim()`
+```{r, eval=FALSE, echo=FALSE}
+# Here we discuss the dataframe and tibble structures as well as the head() command.
+```
 
-* Use the help function in the *console* to understand the difference between these functions. 
+```{r, eval=TRUE, warning=FALSE, message=FALSE}
+head(data_1)
+```
 
-```{r, eval=FALSE}
-?read_csv()
+---
+
+## Importing data
+
+* Find the appropriate function to import each remaining file to a data structure
+* Assign the files to names relevant to the file (i.e. data_2, etc.)
+* The data is the same, so check that the data structures you obtain are in fact the same
+
+---
+
+## Inspecting data
+
+* the `summary()` function can give us a quick look at our data
+
+```{r}
+summary(data_1)
 ```
 
 ---
 
 
+## Inspecting data
 
+* the `names()` function returns a vector of our variable names
+
+```{r}
+names(data_1)
+```
+
+---
+
+## Inspecting data
+
+* the `$` operator allows us to call a single variable of our dataframe/tibble
+
+```{r}
+data_1$trialNb
+```
+
+---
+
+## Inspecting data
+
+* the `$` operator allows us to call a single variable of our dataframe/tibble
+* we can then apply a function on the output vector like the mean stimulus duration
+
+```{r}
+mean(data_1$stimDuration)
+```
+
+
+---
+
+## Inspecting data
+
+* Try computing the mean response reaction time
+
+```{r}
+mean(data_1$responseRT)
+```
+
+* What is the problem ?
+
+---
+
+## Inspecting data
+
+```{r}
+data_1$responseRT
+```
+
+---
+
+## Inspecting data
+
+```{r}
+data_1$responseRT
+```
+
+```{r}
+mean(data_1$responseRT, na.rm=TRUE)
+```
+
+---
+
+## Cleaning up the data - renaming - recoding
+
+```{r}
+head(data_1)
+```
+
+---
+
+## Cleaning up the data - renaming - recoding
+
+```{r}
+data_1[1:10,]$taskType
+```
+
+* rename a variable:
+ * taskType -> Contrast
+* recode the values 
+  * detection -> low
+  * discrimintation -> high
+  
