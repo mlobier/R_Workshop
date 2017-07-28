@@ -1,0 +1,73 @@
+---
+title: "Course Content"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The workshop is made up of 4 half-days. 
+
+# Session 1
+
+## Learning Contents
+
+* R-studio 45'
+* Use R to compute
+  * Create an R script
+  * Run lines or R script in total
+  * Comparisons get a boolean out
+  * Assign values to variables using `<-`
+  * you can assign to itself
+  * Vectorization
+  * Use `ls()` to list variables
+  * Use `rm()` to remove variables 
+* libraries (5')
+  * install libraries
+  * load libraries
+* Data structures (40')
+  * tibbles / dataframes
+  * pull out colums and do operations
+  * data types `typeof()` command
+* Factors (20')
+  * Use for factors
+  * tranform character into factor (use mpg data).
+* tibbles
+  * variable types
+  * `head()` command
+  * `summary()` commands
+  *  calling a variable `$`operator
+  
+# Tidy Data
+  * explain tidy data
+  * Learn to create tidy data
+  * gather and spread
+  
+# Manipulate Data
+  * select()
+    * negate arugument
+  * filter()
+  * arrange()
+  * grpup_by()
+  * summarise()
+  * pipe
+  
+
+## Including Code
+
+You can include R code in the document as follows:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

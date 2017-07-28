@@ -63,9 +63,9 @@ knit        : slidify::knit2slides
 ## Session 1 - Learning goals
 
 * Using R-Studio
-* R scripts
+* Your first R Markdown file
 * How to structure a data analysis project
-* Importing Data
+* Data strucures in T
 * What is Tidy data
 * Transforming and restructuring data
 
@@ -83,21 +83,536 @@ We go through the interface together:
 
 People should have gone thru a quick online tutorial before so should go fast.
 ```
+---
+
+## R-studio
+
+R can be used as a simple calculator.
+
+```{r}
+4+9
+```
+ You can also make comparisons with R, it will output a boolean
+ 
+```{r}
+67 > 52
+
+"Tree" == "tree"
+```
+
 
 ---
 
-## R-studio and R-Notebooks
+## R-studio and markdown documents
 
-Now let's create a notebook.
-Notebooks are great because you can:
-* mix text and code in the same document
-* execute blocks of code sequentially 
+* Let's now create your first R Markdown documents.
 
-```{r echo=FALSE, eval=FALSE}
-We create an R notebook
+* Markdown documents are great because you can:
+  * Combine text and code in the same document: Reproducible Research 
+  * Execute parts of the code (code chunks) sequentially for ease of coding
+  * ouput a html (or pdf or even .doc) file as your documented analysis.
 
+* Open the pre-templated RMarkdown (.Rmd) file at:
+  * ./R_Workshop/my_first_RMarkdown_file.Rmd
+
+
+---
+
+## R-Markdown
+
+The top part of the file is the YAML header
+
+```{r, eval=FALSE}
+---
+title: "My first file"
+output: html_document
+---
 ```
-<iframe src='./assets/img/session_1_RNotebook.png'>
+
+* R code is inserted in chunks:
+* Press the green arrow to execute  
+
+```{r, eval=FALSE}
+6*7
+```
+
+---
+
+## R-Markdown
+
+The top part of the file is the YAML header
+
+```{r, eval=FALSE}
+---
+title: "My first file"
+output: html_document
+---
+```
+
+* R code is inserted in chunks:
+* Press the green arrow to execute  
+
+```{r}
+6*7
+```
+
+---
+
+## R-Markdown
+
+* R relies on packages or libraries for added functionality.
+* You will need in every R session to load the libraries needed for your analysis.
+* Press the green arrow to execute the code and load the *tidyverse* library.
+
+
+```{r}
+library(tidyverse)
+```
+
+---
+
+## Inspect data
+
+* We will use a data set included in r calles `iris`. 
+* Let's take a look a the first rows of the dataset:
+  * Type the command `head(iris)`  in the code chunk below. 
+  * Press the green arrow to run the code
+
+
+```{r,eval=FALSE}
+head(iris)
+```
+
+---
+
+## Inspect data
+
+* We will use a data set included in r calles `iris`. 
+* Let's take a look a the first rows of the dataset:
+  * Type the command `head(iris)`  in the code chunk below. 
+  * Press the green arrow to run the code
+
+
+```{r}
+head(iris)
+```
+
+---
+
+## Inspect data
+
+* Another way to get a "glimpse" of our dataset is to use the `glimpse()` command.
+  * excute the code below
+  * What additional information did you obtain ??
+  
+
+```{r,eval=FALSE}
+glimpse(iris)
+```
+
+---
+
+## Inspect data
+
+* Another way to get a "glimpse" of our dataset is to use the `glimpse()` command.
+  * excute the code below
+  * What additional information did you obtain ??
+  
+
+```{r}
+glimpse(iris)
+```
+
+---
+
+## Inspect data
+
+* To learn more about our dataset, we can get a summary:
+  * insert a code chunk by clicking on insert/R
+  * type and execute the code `summary(iris)`
+
+```{r, eval=FALSE}
+summary(iris)
+```
+
+---
+
+## Inspect data
+
+* To learn more about our dataset, we can get a summary:
+  * insert a code chunk by clicking on insert/R
+  * type and execute the code `summary(iris)`
+
+```{r}
+summary(iris)
+```
+
+---
+
+## Plotting data
+
+You can embed plots in your markdown documents.
+
+* Here we create a plot using ggplot, which we will use throughout the course. 
+* We first plot Sepal.Length as a function of each species. 
+* We use `geom_point()` to plot a point for each observation. 
+
+
+```{r, fig.width=12,fig.height=4,fig.align="center",out.width="800px"}
+ggplot(iris, aes(x=Species, y=Sepal.Length)) + 
+  geom_point()
+```
+
+---
+
+## Plotting data
+
+We can also plot directly a boxplot 
+  * ggplot computes automatically the median and quartiles of the data.
+
+```{r, fig.width = 8, fig.height= 8, fig.align="center",out.width="380px"}
+ggplot(iris, aes(x=Species, y=Sepal.Length)) + 
+  geom_boxplot()
+```
+
+---
+
+## Plotting data
+
+Modify the code below to plot Petal.Length instead of Sepal.Length
+
+```{r, eval=FALSE}
+ggplot(iris, aes(x=Species, y=Sepal.Length)) + 
+  geom_boxplot()
+```
+
+---
+
+## Plotting data
+
+Modify the code below to plot Petal.Length instead of Sepal.Length
+
+```{r, fig.width = 8, fig.height= 8, fig.align="center",out.width="380px" }
+ggplot(iris, aes(x=Species, y=Petal.Length)) + 
+  geom_boxplot()
+```
+
+---
+
+## Plotting
+
+We can also do a scatterplot of Petal.Length as a function of  Sepal.Length using the  geom_point() command.
+* Modify the code below to produce this plot.
+
+```{r , eval = FALSE}
+ggplot(iris, aes(x=, y=)) + 
+  geom_boxplot()
+```
+
+---
+
+## Plotting
+
+We can also do a scatterplot of Petal.Length as a function of Sepal.Length using the  geom_point() command.
+* Modify the code below to produce this plot.
+
+```{r, fig.width = 10, fig.height= 8, fig.align="center",out.width="400px" }
+ggplot(iris, aes(x=Sepal.Length, y= Petal.Length)) + 
+  geom_point()
+```
+
+---
+
+## Plotting - adding colors
+
+* The `aes()`  in the `ggplot()` command codes all which 'aesthetics' are assigned to which variable.
+* Add a new aesthetics color=Species to the aes() command to add color to your plot
+
+```{r, eval =FALSE}
+ggplot(iris, aes(x=Petal.Length, y=Sepal.Length)) + 
+  geom_point()
+```
+
+
+---
+
+## Plotting - adding colors
+
+* The `aes()`  in the `ggplot()` command codes all which 'aesthetics' are assigned to which variable.
+* Add a new aesthetics color=Species to the aes() command to add color to your plot
+
+```{r , fig.width = 10, fig.height= 8, fig.align="center",out.width="400px" }
+ggplot(iris, aes(x=Petal.Length, y=Sepal.Length, color=Species)) + 
+  geom_point()
+```
+
+---
+
+## Knitting your document into an html file
+
+Now you can press Knit at the top of the script pane to knit and visualize the output html file !!
+
+<iframe src='./assets/img/session_1_knit.png'>
+</iframe> 
+
+---
+
+## Important points
+
+* Use RMarkdown documents to combine text, analysis code and figures
+* Data structures can be inspected using:
+  * `head()`
+  * `glimpse()`
+  * `summary()`
+
+
+---
+
+## Quick overview of data types in R
+
+* There are 5 main data types in R
+  * numeric doubles : 5.56
+  * numeric integers:  2
+  * strings/characters: "Hello World"
+  * boolean: `TRUE` / `FALSE`
+  * complex: 5 + 4.3i
+
+* Other types are:
+  * NA
+  * Inf
+
+---
+
+## Manipulating types
+
+Evaluate the type of an object
+```{r}
+typeof(5.3)
+```
+
+---
+
+## Manipulating types
+
+Evaluate the type of an object
+```{r}
+typeof(5.3)
+```
+test the type of an object
+```{r}
+is.integer(5.3)
+```
+
+---
+
+## Manipulating types
+
+Evaluate the type of an object
+```{r}
+typeof(5.3)
+```
+test the type of an object
+```{r}
+is.integer(5.3)
+```
+convert the type of an object
+```{r}
+as.integer(5.3)
+```
+
+---
+
+## Vectors
+
+* The simplest object type
+
+```{r}
+print(6)
+```
+
+* you can concatenate objects into a vector using the `c()` operator
+```{r}
+c(5, 7, 9, 63)
+```
+
+* You can use the `:` operator
+```{r}
+c(1:10)
+```
+
+---
+
+## Vectors
+
+What happens if I mix different data types in my vector ?
+```{r, eval=FALSE}
+c(6L, "The dog", 56, FALSE)
+```
+
+---
+
+## Vectors
+
+What happens if I mix different data types in my vector ?
+```{r}
+c(6L, "The dog", 56, FALSE)
+```
+
+All elements of the vector are *coerced* to the chararcter type. **WITHOUT WARNING**
+
+---
+
+## Vectors
+
+Operations are vectorized
+```{r}
+c(10,20,30,40) + 1
+5^c(1:5)
+```
+
+---
+
+## Vector indexing
+
+LETTERS in a built-in vector in R
+
+```{r}
+LETTERS
+```
+
+---
+
+## Vector indexing
+
+LETTERS in a built-in vector in R
+
+```{r}
+LETTERS
+```
+
+Calling an element in done using the `[]` operator
+```{r}
+LETTERS[2]
+```
+
+---
+
+## Vector indexing
+
+Index the vector to ouput your name...
+
+```{r, eval=FALSE}
+LETTERS[]
+```
+
+**TIP**
+
+Remember the difference between 
+
+```{r, eval=FALSE}
+2,5,7,10
+```
+and 
+```{r}
+c(2,5,7,10)
+```
+
+---
+
+## Vector indexing
+
+Index the vector to ouput your name...
+
+```{r}
+LETTERS[c(13, 25, 13, 25)]
+```
+
+---
+
+## Vector indexing
+
+You can use the `` operator to index a vector
+
+```{r}
+LETTERS[1:5]
+```
+
+The function `length()` returns ... the length of your vector
+```{r}
+length(LETTERS)
+```
+
+---
+
+## Vector indexing: exercises
+
+How do I get this ouput:
+```{r,echo=FALSE}
+LETTERS[5:10]
+```
+How do I get this ouput:
+```{r,echo=FALSE}
+LETTERS[c(5:10, 17)]
+```
+How do I ouput the first 3 letters and the second to last one:
+```{r,echo=FALSE}
+LETTERS[c(1:3, length(LETTERS)-1)]
+```
+How do I ouput all letters except M and Y (*negative indexes ??*):
+```{r,echo=FALSE}
+LETTERS[c(1:3, length(LETTERS)-1)]
+```
+
+---
+
+## Vector indexing: exercises
+
+How do I get this ouput:
+```{r}
+LETTERS[5:10]
+```
+How do I get this ouput:
+```{r}
+LETTERS[c(5:10, 17)]
+```
+
+---
+
+## Vector indexing: exercises
+How do I ouput the first 3 letters and the second to last one:
+```{r,echo=FALSE}
+LETTERS[c(1:3, length(LETTERS)-1)]
+```
+How do I ouput all letters except M and Y (*negative indexes ??*):
+```{r,echo=FALSE}
+LETTERS[c(1:3, length(LETTERS)-1)]
+```
+
+
+---
+
+## Vector indexing: exercises
+How do I ouput the first 3 letters and the second to last one:
+```{r,echo=FALSE}
+LETTERS[c(1:3, length(LETTERS)-1)]
+```
+How do I ouput all letters except M and Y (*negative indexes ??*):
+```{r,echo=FALSE}
+LETTERS[c(1:3, length(LETTERS)-1)]
+```
+
+---
+
+## Vectors and Lists
+
+![image](assets/img/session_1_vectors.png)
+
+source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html)
+
+
+---
+
+<iframe src='./assets/img/session_1_vectors.png'>
 </iframe> 
 
 --- &twocol
