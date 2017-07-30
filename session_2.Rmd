@@ -1,0 +1,376 @@
+---
+title       : Introduction to R Workshop 
+subtitle    : Session 2
+author      : Muriel Lobier
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax, quiz, bootstrap]           # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+<style>
+pre {
+  margin-top: -15px;
+}
+</style>
+
+<style>
+.large {
+   font-size: 150%;
+}
+</style>
+
+<style>
+slide.smallcode pre {
+  font-size: 16px;
+}
+</style>
+
+---
+
+## Session 2 - Main Goals
+
+### Dataframes and Tibbles
+
+###  Tidy data
+
+### Data wrangling
+
+---
+
+## Dataframes and Tibbles
+
+### Understand the avantages of tibbles
+
+### Be able to extract information from tibbles
+
+### Be able to manipulate factors
+> Conver between string and factors
+
+--- .class #id 
+
+## Dataframes 
+
+### Dataframes are the main data structures:
+```{r}
+iris
+```
+
+--- 
+
+## Better dataframes: tibbles !!
+
+### Load the `gapminder` library to access the gapminder dataset
+```{r}
+library(gapminder)
+gapminder
+```
+
+--- 
+
+## Better dataframes: Tibbles !!
+
+### Why are tibbles better ???
+```{r, echo=FALSE}
+gapminder[1:5,]
+```
+
+```{r, echo=FALSE}
+iris[1:5,]
+```
+---
+
+## Better dataframes: Tibbles
+
+### You can convert a data frame into a tibble
+```{r}
+as.tibble(iris)
+```
+
+--- 
+
+## Main commands
+
+### You can convert a data frame into a tibble
+```{r}
+names(gapminder)
+```
+
+--- 
+
+## Main commands
+
+```{r}
+names(gapminder)
+```
+```{r}
+dim(gapminder)
+``` 
+
+--- 
+
+## Main commands
+
+```{r}
+names(gapminder)
+```
+```{r}
+dim(gapminder)
+``` 
+```{r}
+nrow(gapminder)
+``` 
+
+--- 
+
+## Main commands
+
+```{r}
+names(gapminder)
+```
+```{r}
+dim(gapminder)
+``` 
+```{r}
+nrow(gapminder)
+``` 
+```{r}
+ncol(gapminder)
+``` 
+
+---
+
+## Specifying a variable
+
+### Use the `$` operator
+
+```{r}
+summary(gapminder$gdpPercap)
+```
+
+---
+
+## Categorical variables: factors
+
+### Factors encode categorical variables
+
+```{r}
+gapminder
+```
+
+
+---
+
+## Categorical variables: factors
+
+### Factors have a finite number of levels
+
+```{r}
+nlevels(gapminder$continent)
+```
+
+### How many  countries are represented in the dataset??
+
+---
+
+## Categorical variables: factors
+
+### Factor values can be extracted as a vector
+
+```{r}
+levels(gapminder$continent)
+```
+
+---
+
+## Categorical variables: factors
+
+### Factor values can be extracted as a vector
+
+```{r}
+levels(gapminder$continent)
+```
+
+### What are the last five countries in the dataset?
+
+---
+
+## Categorical variables: factors
+
+### Factor values can be extracted as a vector
+
+```{r}
+levels(gapminder$continent)
+```
+
+### What are the last five countries in the dataset?
+```{r}
+tail(levels(gapminder$country))
+```
+
+---
+
+## Categorical variables: factors
+
+### How many observations do we have for each continent ?
+```{r, eval=FALSE}
+summary(gapminder$continent)
+```
+
+--- .smallcode
+
+## Categorical variables: factors
+
+### How many observations do we have for each continent ?
+```{r}
+summary(gapminder$continent)
+```
+
+---
+
+## Categorical variables: factors
+
+### How many observations do we have for each continent ?
+```{r}
+summary(gapminder$continent)
+```
+
+
+### How many observations do we have for each continent - other option?
+```{r}
+table(gapminder$continent)
+```
+
+--- 
+
+## Categorical variables: factors
+
+### How does R store factors "under the hood" ?
+```{r, eval=FALSE}
+str(gapminder$country)
+```
+
+---
+
+## Converting string variables to factors
+
+### Inspect the `mpg` data set - which variables should be factors ?
+
+---
+
+## Converting string variables to factors
+
+### Inspect the `mpg` data set - which variables should be factors ?
+
+```{r, echo=FALSE}
+mpg[1:2,]
+```
+
+--- .smallcode
+
+## Converting string variables to factors
+
+### Inspect the `mpg` data set - which variables should be factors ?
+
+```{r, echo=FALSE}
+mpg[1:2,]
+```
+
+### Use the `as.factor()` command and  `<-`  to convert the `manufacturer` variable to  *factor*
+
+--- .smallcode
+
+## Converting string variables to factors
+
+### Inspect the `mpg` data set - which variables should be factors ?
+
+```{r, echo=FALSE}
+mpg[1:2,]
+```
+
+### Use the `as.factor()` command and  `<-`  to convert the `manufacturer` variable to  *factor*
+
+```{r}
+mpg$manufacturer<-as.factor(mpg$manufacturer)
+```
+```{r, echo=FALSE}
+mpg[1:2,]
+```
+
+--- .smallcode
+
+## Converting string variables to factors
+
+### Convert the `manufacturer` variable back to character (`as.character()`)
+
+```{r, echo=FALSE}
+mpg[1:2,]
+```
+
+--- .smallcode
+
+## Converting string variables to factors
+
+### Convert the `manufacturer` variable back to character (`as.character()`)
+
+```{r}
+mpg$manufacturer<-as.character(mpg$manufacturer)
+```
+```{r, echo=FALSE}
+mpg[1:2,]
+```
+
+---
+
+```{r, eval=FALSE}
+str(gapminder$country)
+```
+
+
+---
+
+## Categorical variables: factors
+
+### How does R store factors "under the hood" ?
+```{r, eval=FALSE}
+str(gapminder$country)
+```
+
+
+
+### How many observations do we have for each continent - other option?
+```{r}
+table(gapminder$continent)
+```
+
+
+---
+
+--- &twocol
+
+## Subsetting Lists 
+
+*** =left
+
+```{r}
+a <- list(a = 1:3, b = "a string", 
+          c = pi, d = list(-1, -5))
+str(a)
+```
+
+
+*** =right
+
+<img class=center
+  src=assets/img/session_1_r_list2.png height=100px>
+
+
+*** =fullwidth
+
+<br>
+  Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
