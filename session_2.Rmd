@@ -48,7 +48,7 @@ slide.smallcode pre {
 ### Be able to extract information from tibbles
 
 ### Be able to manipulate factors
-> Conver between string and factors
+
 
 --- .class #id 
 
@@ -56,6 +56,7 @@ slide.smallcode pre {
 
 ### Dataframes are the main data structures:
 ```{r}
+rm(list=ls())
 iris
 ```
 
@@ -325,13 +326,6 @@ mpg[1:2,]
 
 ---
 
-```{r, eval=FALSE}
-str(gapminder$country)
-```
-
-
----
-
 ## Categorical variables: factors
 
 ### How does R store factors "under the hood" ?
@@ -339,38 +333,643 @@ str(gapminder$country)
 str(gapminder$country)
 ```
 
+---
 
+## Categorical variables: factors
 
-### How many observations do we have for each continent - other option?
+### How does R store factors "under the hood" ?
+
 ```{r}
-table(gapminder$continent)
+str(gapminder$country)
 ```
 
 
 ---
 
---- &twocol
+## Tidy data
 
-## Subsetting Lists 
+### Be able to identify if a dataset is tidy
 
-*** =left
+### Be able to use tidyverse functions to tidy a dataset
 
+  * `gather()`
+  * `spread()`
+  
+---
+
+## Tidy data
+
+### What is tidy data? 
+
+
+
+---
+
+--- &twocol_l
+
+## Tidy data
+
+### Run the following line of code to load 4 datasets
 ```{r}
-a <- list(a = 1:3, b = "a string", 
-          c = pi, d = list(-1, -5))
-str(a)
+load(file="data/is_my_data_tidy.RData")
 ```
 
 
+*** =left
+
+gapminder_1
+
+gapminder_2
+
 *** =right
 
-<img class=center
-  src=assets/img/session_1_r_list2.png height=100px>
+gapminder_3
 
+gapminder_4_1 and _2
+
+
+--- .smallcode &twocol_l
+
+## Tidy data
+
+### Which one(s) of these datasets is(are) tidy?
+
+*** =left
+
+gapminder_1
+```{r, echo=FALSE}
+gapminder_1[1:4,]
+```
+
+gapminder_3
+```{r, echo=FALSE}
+gapminder_3[1:4,]
+```
+
+*** =right
+
+gapminder_2
+```{r, echo=FALSE}
+gapminder_2[1:4,]
+```
+
+gapminder_4_1 and _2
+
+```{r, echo=FALSE}
+gapminder_4_1[1,]
+```
+
+```{r, echo=FALSE}
+gapminder_4_2[1,]
+```
+
+---
+
+## Tidy data
+### gapminder_1
+```{r, echo=FALSE}
+gapminder_1
+```
+
+---
+
+## Tidy data
+### gapminder_1
+```{r, echo=FALSE}
+gapminder_1
+```
+
+**NOT TIDY**
+
+
+---.smallcode
+
+
+## Tidy data
+### gapminder_2
+```{r, echo=FALSE}
+gapminder_2
+```
+
+--- .smallcode
+
+## Tidy data
+### gapminder_2
+```{r, echo=FALSE}
+gapminder_2
+```
+
+**NOT TIDY**
+
+---
+
+## Tidy data
+### gapminder_3
+```{r, echo=FALSE}
+gapminder_3
+```
+
+---
+
+## Tidy data
+### gapminder_3
+```{r, echo=FALSE}
+gapminder_3
+```
+
+**TIDY**
+
+---.smallcode
+
+## Tidy data
+### gapminder_4_1 and _4_2
+```{r, echo=FALSE}
+gapminder_4_1[1:4,]
+```
+```{r, echo=FALSE}
+gapminder_4_2[1:4,]
+```
+
+---.smallcode
+
+## Tidy data
+### gapminder_4_1 and _4_2
+```{r, echo=FALSE}
+gapminder_4_1[1:4,]
+```
+```{r, echo=FALSE}
+gapminder_4_2[1:4,]
+```
+
+**NOT TIDY**
+
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### What do we need to do to go from here:
+```{r, echo=FALSE}
+gapminder_1[1:4,]
+```
+to 
+
+```{r, echo=FALSE}
+gapminder_3[1:4,]
+```
+
+---
+
+## Making data tidy - spread()
+
+### `spread(data, key, value, fill=NA, ...)`
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### `spread(data, key = ? , value = ?)`
+
+```{r, echo=FALSE}
+my_data<-tibble(subject=c("S001", "S001", "S002", "S002"), measure_type=c("RT", "hit_rate","RT", "hit_rate"),  result=c(1.45, 0.71, 1.2,0.56))
+```
+```{r, echo=FALSE}
+my_data
+```
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### `spread(data, key = ? , value = ?)`
+
+```{r, echo=FALSE}
+my_data
+```
+```{r}
+spread(data=my_data, key=measure_type, value = result)
+```
+
+
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### Use the `spread()` function to go from:
+```{r, echo=FALSE}
+gapminder_1[1:4,]
+```
+to 
+
+```{r, echo=FALSE}
+gapminder_3[1:4,]
+```
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### Use the `spread()` function:
+
+```{r, echo=FALSE}
+gapminder_1[1:4,]
+```
+
+```{r, eval=FALSE}
+spread(gapminder_1, key = variable_name, value = variable_value)
+```
+
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### Write the correct `spread()` function:
+
+```{r, echo=FALSE}
+gapminder_1[1:4,]
+```
+
+```{r}
+spread(gapminder_1, key = variable_name, value = variable_value)
+```
+
+
+---.smallcode
+
+## Making data tidy 
+
+### How do we get from :
+
+```{r, echo=FALSE}
+gapminder_2[1:4,]
+```
+ to
+ 
+```{r, echo=FALSE}
+gapminder_3[1:4,]
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### Step 1: `gather()`
+
+```{r, echo=FALSE}
+gapminder_2[1:3,]
+```
+ to
+ 
+```{r, echo=FALSE}
+gather(gapminder_2, key=variable_type, value = variable_value, -country)[1:4,]
+```
+
+---.smallcode
+
+## Making data tidy - separate()
+
+### Step 2: `separate()`
+
+```{r, echo=FALSE}
+gapminder_2[1:3,]
+```
+ to
+ 
+```{r, echo=FALSE}
+gather(gapminder_2, key=variable_type, value = variable_value, -country) %>%
+  separate(col = variable_type, into = c("var_type", "year")) %>% 
+  head()
+  
+```
+
+---.smallcode
+
+## Making data tidy - gather()  again
+
+### Step 3: `gather()`
+
+```{r, echo=FALSE}
+gather(gapminder_2, key=variable_type, value = variable_value, -country) %>%
+  separate(col = variable_type, into = c("var_type", "year")) %>% 
+  head()
+```
+ to
+ 
+```{r, echo=FALSE}
+gather(gapminder_2, key=variable_type, value = variable_value, -country) %>%
+  separate(col = variable_type, into = c("var_type", "year")) %>% 
+  spread(key=var_type, value=variable_value) %>%
+  head()
+  
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+```{r, echo=FALSE}
+tibble(subject=c("S001", "S001", "S001", "S001"), measure_type=c("RT.session1", "RT.session2","hitrate.session1", "hitrate.session2"),  result=c(1.45, 1.23, 0.74, 0.85)) %>%
+  spread(key=measure_type, value=result) -> my_data
+```
+```{r, echo=FALSE}
+my_data
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+```{r, echo=FALSE}
+my_data
+```
+```{r, eval=FALSE}
+my_data_2 <- gather(data = my_data, key = variable, value = result, 
+                    hitrate.session1, hitrate.session2, 
+                    RT.session1, RT.session2)
+```
+
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+```{r, echo=FALSE}
+my_data
+```
+```{r}
+( my_data_2 <- gather(data = my_data, key = variable, value = result, hitrate.session1, 
+                      hitrate.session2, RT.session1, RT.session2) )
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+```{r, echo=FALSE}
+my_data
+```
+```{r}
+( my_data_2 <- gather(data = my_data, key = variable, value = result, hitrate.session1:RT.session2) )
+```
+
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+```{r, echo=FALSE}
+my_data
+```
+```{r}
+( my_data_2 <- gather(data = my_data, key = variable, value = result,  -subject) )
+```
+
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+```{r, echo=FALSE}
+my_data
+```
+```{r}
+gather(data = my_data, key = variable, value = result) 
+```
+
+
+
+---.smallcode
+
+## Making data tidy - separate()
+
+### `separate(data = , col = , into = , sep = , ...)`
+
+```{r, echo=FALSE}
+my_data_2
+```
+```{r}
+( my_data_3 <- separate(data = my_data_2 , col = variable, into =  c("RT","session")) )
+```
+
+---.smallcode
+
+## Making data tidy - spread again()
+
+### `spread(data = , key = , value = )`
+
+```{r, echo=FALSE}
+my_data_3
+```
+
+---.smallcode
+
+## Making data tidy - spread again()
+
+### `spread(data = , key = , value = )`
+
+```{r, echo=FALSE}
+my_data_3
+```
+```{r}
+( my_data_final <- spread(my_data_3, key=RT, value = result) )
+```
+
+
+---.smallcode
+
+## Making data tidy - piping `%>%`
+
+### Full tidying code : 
+
+```{r, eval=FALSE}
+my_data_2 <- gather(data = my_data, key = variable_type, value = result, -subject)
+my_data_3 <- separate(data = my_data_2, col = variable_type, into = c('var_type', "session"))
+my_data_final <- spread(data = my_data_3, key = var_type, value = result)
+```
+
+
+---.smallcode
+
+## Making data tidy - piping `%>%`
+
+### Full tidying code : 
+
+```{r, eval = FALSE}
+my_data_2 <- gather(data = my_data, key = variable_type, value = result, -subject)
+my_data_3 <- separate(data = my_data_2, col = variable_type, into = c('var_type', "session"))
+my_data_final <- spread(data = my_data_3, key = var_type, value = result)
+```
+
+### Piped tidying code : 
+
+```{r}
+my_data %>% 
+  gather(key = variable_type, value = result, -subject) %>%
+  separate(col = variable_type, into = c('var_type', "session")) %>%
+  spread(key = var_type, value = result)
+```
+
+
+---.smallcode
+
+## Making data tidy - piping `%>%`
+
+### Full tidying code : 
+
+```{r, eval = FALSE}
+my_data_2 <- gather(data = my_data, key = variable_type, value = result, -subject)
+my_data_3 <- separate(data = my_data_2, col = variable_type, into = c('var_type', "session"))
+my_data_final <- spread(data = my_data_3, key = var_type, value = result)
+```
+
+### Piped tidying code : 
+
+```{r}
+my_data %>% 
+  gather(key = variable_type, value = result, -subject) %>%
+  separate(col = variable_type, into = c('var_type', "session")) %>%
+  spread(key = var_type, value = result) -> my_data_final
+```
+
+---.smallcode
+
+## Making data tidy - your turn !!
+```{r, echo=FALSE}
+gapminder_2[1:4,]
+```
+ to
+ 
+```{r, echo=FALSE}
+gapminder_3[1:4,]
+```
+
+---.smallcode
+
+## Making data tidy - a solution
+```{r, echo=FALSE}
+gapminder_2[1:2,]
+```
+ to
+ 
+```{r}
+gapminder_2 %>%
+  gather(key= variable_type, value=variable_value, -country) %>%
+  separate(col=variable_type, into=c("var_type", "year")) %>%
+  spread(key=var_type, value=variable_value)
+```
+
+---.smallcode
+### Making data tidy - joining tibbles
+
+```{r, echo=FALSE}
+gapminder_4_1[1:2,]
+```
+```{r, echo=FALSE}
+gapminder_4_2[1:2,]
+```
+
+---.smallcode
+
+### Making data tidy - joining tibbles
+
+```{r, echo=FALSE}
+tibble(subject=c("S001", "S001", "S002", "S002"), 
+       session=c("session1", "session2","session1", "session2"),  RT=c(1.45, 1.23, 1.74, 1.85))
+```
+```{r, echo=FALSE}
+tibble(subject=c("S001", "S001", "S002", "S002"), 
+       session=c("session1", "session2","session1", "session2"),  hitrate=c(.65, .73, .71, .68))
+```
+
+
+---.smallcode
+### Making data tidy - joining datasets
+
+```{r, echo=FALSE}
+gapminder_4_1 %>% 
+  gather(key=year, value=lifeExp,-country) %>%
+  head()
+```
+```{r, echo=FALSE}
+gapminder_4_2 %>% 
+  gather(key=year, value=gdpPercap, -country) %>%
+  head()
+```
+
+
+--- 
+
+## Tidy data Joining datasets
+
+<img class=center
+  src=assets/img/session_2_join-setup.png width=300px>
+
+
+--- .smallcode &twocol_l
+
+## Tidy data Joining datasets
+
+*** =left
+### Inner join 
+
+<img class=center
+  src=assets/img/session_2_join-inner.png width=300px>
+
+*** =right
+### Outer join
+<img class=center
+  src=assets/img/session_2_join-outer.png width=300px>
 
 *** =fullwidth
 
 <br>
   Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+---.smallcode
+
+### Making data tidy - joining datasets
+```{r}
+gapminder_4_1 %>% 
+  gather(key=year, value=lifeExp,-country) -> gapminder_4_1
+```
+
+```{r, echo=FALSE}
+gapminder_4_1 %>% 
+  gather(key=year, value=lifeExp,-country) %>%
+  head()  
+```
+
+
+```{r}
+gapminder_4_2 %>% 
+  gather(key=year, value=gdpPercap,-country) -> gapminder_4_2
+```
+
+
+```{r, echo=FALSE}
+gapminder_4_2 %>% 
+  gather(key=year, value=gdpPercap, -country) %>%
+  head()
+```
+
+
+
+```{r}
+inner_join(gapminder_4_1, gapminder_4_2, by=c("country", "year"))
+```
 
 

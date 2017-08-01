@@ -48,7 +48,7 @@ slide.smallcode pre {
 ### Be able to extract information from tibbles
 
 ### Be able to manipulate factors
-> Conver between string and factors
+
 
 --- .class #id 
 
@@ -57,6 +57,7 @@ slide.smallcode pre {
 ### Dataframes are the main data structures:
 
 ```r
+rm(list=ls())
 iris
 ```
 
@@ -595,7 +596,7 @@ str(gapminder$country)
 ```
 ## # A tibble: 2 x 11
 ##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##         <fctr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
 ## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
 ## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
 ## # ... with 1 more variables: class <chr>
@@ -611,7 +612,7 @@ str(gapminder$country)
 ```
 ## # A tibble: 2 x 11
 ##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##         <fctr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
 ## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
 ## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
 ## # ... with 1 more variables: class <chr>
@@ -629,7 +630,7 @@ str(gapminder$country)
 ```
 ## # A tibble: 2 x 11
 ##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##         <fctr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
 ## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
 ## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
 ## # ... with 1 more variables: class <chr>
@@ -645,7 +646,7 @@ mpg$manufacturer<-as.factor(mpg$manufacturer)
 ```
 ## # A tibble: 2 x 11
 ##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##         <fctr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
 ## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
 ## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
 ## # ... with 1 more variables: class <chr>
@@ -661,7 +662,7 @@ mpg$manufacturer<-as.factor(mpg$manufacturer)
 ```
 ## # A tibble: 2 x 11
 ##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##         <fctr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
 ## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
 ## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
 ## # ... with 1 more variables: class <chr>
@@ -689,14 +690,6 @@ mpg$manufacturer<-as.character(mpg$manufacturer)
 
 ---
 
-
-```r
-str(gapminder$country)
-```
-
-
----
-
 ## Categorical variables: factors
 
 ### How does R store factors "under the hood" ?
@@ -705,56 +698,1086 @@ str(gapminder$country)
 str(gapminder$country)
 ```
 
+---
 
+## Categorical variables: factors
 
-### How many observations do we have for each continent - other option?
+### How does R store factors "under the hood" ?
+
 
 ```r
-table(gapminder$continent)
+str(gapminder$country)
 ```
 
 ```
-## 
-##   Africa Americas     Asia   Europe  Oceania 
-##      624      300      396      360       24
+##  Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...
 ```
 
 
 ---
 
---- &twocol
+## Tidy data
 
-## Subsetting Lists 
+### Be able to identify if a dataset is tidy
+
+### Be able to use tidyverse functions to tidy a dataset
+
+  * `gather()`
+  * `spread()`
+  
+---
+
+## Tidy data
+
+### What is tidy data? 
+
+
+
+---
+
+--- &twocol_l
+
+## Tidy data
+
+### Run the following line of code to load 4 datasets
+
+```r
+load(file="data/is_my_data_tidy.RData")
+```
+
 
 *** =left
 
+gapminder_1
 
-```r
-a <- list(a = 1:3, b = "a string", 
-          c = pi, d = list(-1, -5))
-str(a)
-```
-
-```
-## List of 4
-##  $ a: int [1:3] 1 2 3
-##  $ b: chr "a string"
-##  $ c: num 3.14
-##  $ d:List of 2
-##   ..$ : num -1
-##   ..$ : num -5
-```
-
+gapminder_2
 
 *** =right
 
+gapminder_3
+
+gapminder_4_1 and _2
+
+
+--- .smallcode &twocol_l
+
+## Tidy data
+
+### Which one(s) of these datasets is(are) tidy?
+
+*** =left
+
+gapminder_1
+
+```
+## # A tibble: 4 x 4
+##       country  year variable_name variable_value
+##        <fctr> <int>         <chr>          <dbl>
+## 1 Afghanistan  1952       lifeExp         28.801
+## 2 Afghanistan  1972       lifeExp         36.088
+## 3 Afghanistan  1992       lifeExp         41.674
+## 4     Albania  1952       lifeExp         55.230
+```
+
+gapminder_3
+
+```
+## # A tibble: 4 x 4
+##       country  year lifeExp gdpPercap
+##        <fctr> <int>   <dbl>     <dbl>
+## 1 Afghanistan  1952  28.801  779.4453
+## 2 Afghanistan  1972  36.088  739.9811
+## 3 Afghanistan  1992  41.674  649.3414
+## 4     Albania  1952  55.230 1601.0561
+```
+
+*** =right
+
+gapminder_2
+
+```
+## # A tibble: 4 x 7
+##       country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##        <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+## 1 Afghanistan       779.4453       739.9811       649.3414       28.801
+## 2     Albania      1601.0561      3313.4222      2497.4379       55.230
+## 3     Algeria      2449.0082      4182.6638      5023.2166       43.077
+## 4      Angola      3520.6103      5473.2880      2627.8457       30.015
+## # ... with 2 more variables: lifeExp_1972 <dbl>, lifeExp_1992 <dbl>
+```
+
+gapminder_4_1 and _2
+
+
+```
+## # A tibble: 1 x 4
+##       country `1952` `1972` `1992`
+##        <fctr>  <dbl>  <dbl>  <dbl>
+## 1 Afghanistan 28.801 36.088 41.674
+```
+
+
+```
+## # A tibble: 1 x 4
+##       country   `1952`   `1972`   `1992`
+##        <fctr>    <dbl>    <dbl>    <dbl>
+## 1 Afghanistan 779.4453 739.9811 649.3414
+```
+
+---
+
+## Tidy data
+### gapminder_1
+
+```
+## # A tibble: 852 x 4
+##        country  year variable_name variable_value
+##         <fctr> <int>         <chr>          <dbl>
+##  1 Afghanistan  1952       lifeExp         28.801
+##  2 Afghanistan  1972       lifeExp         36.088
+##  3 Afghanistan  1992       lifeExp         41.674
+##  4     Albania  1952       lifeExp         55.230
+##  5     Albania  1972       lifeExp         67.690
+##  6     Albania  1992       lifeExp         71.581
+##  7     Algeria  1952       lifeExp         43.077
+##  8     Algeria  1972       lifeExp         54.518
+##  9     Algeria  1992       lifeExp         67.744
+## 10      Angola  1952       lifeExp         30.015
+## # ... with 842 more rows
+```
+
+---
+
+## Tidy data
+### gapminder_1
+
+```
+## # A tibble: 852 x 4
+##        country  year variable_name variable_value
+##         <fctr> <int>         <chr>          <dbl>
+##  1 Afghanistan  1952       lifeExp         28.801
+##  2 Afghanistan  1972       lifeExp         36.088
+##  3 Afghanistan  1992       lifeExp         41.674
+##  4     Albania  1952       lifeExp         55.230
+##  5     Albania  1972       lifeExp         67.690
+##  6     Albania  1992       lifeExp         71.581
+##  7     Algeria  1952       lifeExp         43.077
+##  8     Algeria  1972       lifeExp         54.518
+##  9     Algeria  1992       lifeExp         67.744
+## 10      Angola  1952       lifeExp         30.015
+## # ... with 842 more rows
+```
+
+**NOT TIDY**
+
+
+---.smallcode
+
+
+## Tidy data
+### gapminder_2
+
+```
+## # A tibble: 142 x 7
+##        country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##  *      <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+##  1 Afghanistan       779.4453       739.9811       649.3414       28.801
+##  2     Albania      1601.0561      3313.4222      2497.4379       55.230
+##  3     Algeria      2449.0082      4182.6638      5023.2166       43.077
+##  4      Angola      3520.6103      5473.2880      2627.8457       30.015
+##  5   Argentina      5911.3151      9443.0385      9308.4187       62.485
+##  6   Australia     10039.5956     16788.6295     23424.7668       69.120
+##  7     Austria      6137.0765     16661.6256     27042.0187       66.800
+##  8     Bahrain      9867.0848     18268.6584     19035.5792       50.939
+##  9  Bangladesh       684.2442       630.2336       837.8102       37.484
+## 10     Belgium      8343.1051     16672.1436     25575.5707       68.000
+## # ... with 132 more rows, and 2 more variables: lifeExp_1972 <dbl>,
+## #   lifeExp_1992 <dbl>
+```
+
+--- .smallcode
+
+## Tidy data
+### gapminder_2
+
+```
+## # A tibble: 142 x 7
+##        country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##  *      <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+##  1 Afghanistan       779.4453       739.9811       649.3414       28.801
+##  2     Albania      1601.0561      3313.4222      2497.4379       55.230
+##  3     Algeria      2449.0082      4182.6638      5023.2166       43.077
+##  4      Angola      3520.6103      5473.2880      2627.8457       30.015
+##  5   Argentina      5911.3151      9443.0385      9308.4187       62.485
+##  6   Australia     10039.5956     16788.6295     23424.7668       69.120
+##  7     Austria      6137.0765     16661.6256     27042.0187       66.800
+##  8     Bahrain      9867.0848     18268.6584     19035.5792       50.939
+##  9  Bangladesh       684.2442       630.2336       837.8102       37.484
+## 10     Belgium      8343.1051     16672.1436     25575.5707       68.000
+## # ... with 132 more rows, and 2 more variables: lifeExp_1972 <dbl>,
+## #   lifeExp_1992 <dbl>
+```
+
+**NOT TIDY**
+
+---
+
+## Tidy data
+### gapminder_3
+
+```
+## # A tibble: 426 x 4
+##        country  year lifeExp gdpPercap
+##         <fctr> <int>   <dbl>     <dbl>
+##  1 Afghanistan  1952  28.801  779.4453
+##  2 Afghanistan  1972  36.088  739.9811
+##  3 Afghanistan  1992  41.674  649.3414
+##  4     Albania  1952  55.230 1601.0561
+##  5     Albania  1972  67.690 3313.4222
+##  6     Albania  1992  71.581 2497.4379
+##  7     Algeria  1952  43.077 2449.0082
+##  8     Algeria  1972  54.518 4182.6638
+##  9     Algeria  1992  67.744 5023.2166
+## 10      Angola  1952  30.015 3520.6103
+## # ... with 416 more rows
+```
+
+---
+
+## Tidy data
+### gapminder_3
+
+```
+## # A tibble: 426 x 4
+##        country  year lifeExp gdpPercap
+##         <fctr> <int>   <dbl>     <dbl>
+##  1 Afghanistan  1952  28.801  779.4453
+##  2 Afghanistan  1972  36.088  739.9811
+##  3 Afghanistan  1992  41.674  649.3414
+##  4     Albania  1952  55.230 1601.0561
+##  5     Albania  1972  67.690 3313.4222
+##  6     Albania  1992  71.581 2497.4379
+##  7     Algeria  1952  43.077 2449.0082
+##  8     Algeria  1972  54.518 4182.6638
+##  9     Algeria  1992  67.744 5023.2166
+## 10      Angola  1952  30.015 3520.6103
+## # ... with 416 more rows
+```
+
+**TIDY**
+
+---.smallcode
+
+## Tidy data
+### gapminder_4_1 and _4_2
+
+```
+## # A tibble: 4 x 4
+##       country `1952` `1972` `1992`
+##        <fctr>  <dbl>  <dbl>  <dbl>
+## 1 Afghanistan 28.801 36.088 41.674
+## 2     Albania 55.230 67.690 71.581
+## 3     Algeria 43.077 54.518 67.744
+## 4      Angola 30.015 37.928 40.647
+```
+
+```
+## # A tibble: 4 x 4
+##       country    `1952`    `1972`    `1992`
+##        <fctr>     <dbl>     <dbl>     <dbl>
+## 1 Afghanistan  779.4453  739.9811  649.3414
+## 2     Albania 1601.0561 3313.4222 2497.4379
+## 3     Algeria 2449.0082 4182.6638 5023.2166
+## 4      Angola 3520.6103 5473.2880 2627.8457
+```
+
+---.smallcode
+
+## Tidy data
+### gapminder_4_1 and _4_2
+
+```
+## # A tibble: 4 x 4
+##       country `1952` `1972` `1992`
+##        <fctr>  <dbl>  <dbl>  <dbl>
+## 1 Afghanistan 28.801 36.088 41.674
+## 2     Albania 55.230 67.690 71.581
+## 3     Algeria 43.077 54.518 67.744
+## 4      Angola 30.015 37.928 40.647
+```
+
+```
+## # A tibble: 4 x 4
+##       country    `1952`    `1972`    `1992`
+##        <fctr>     <dbl>     <dbl>     <dbl>
+## 1 Afghanistan  779.4453  739.9811  649.3414
+## 2     Albania 1601.0561 3313.4222 2497.4379
+## 3     Algeria 2449.0082 4182.6638 5023.2166
+## 4      Angola 3520.6103 5473.2880 2627.8457
+```
+
+**NOT TIDY**
+
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### What do we need to do to go from here:
+
+```
+## # A tibble: 4 x 4
+##       country  year variable_name variable_value
+##        <fctr> <int>         <chr>          <dbl>
+## 1 Afghanistan  1952       lifeExp         28.801
+## 2 Afghanistan  1972       lifeExp         36.088
+## 3 Afghanistan  1992       lifeExp         41.674
+## 4     Albania  1952       lifeExp         55.230
+```
+to 
+
+
+```
+## # A tibble: 4 x 4
+##       country  year lifeExp gdpPercap
+##        <fctr> <int>   <dbl>     <dbl>
+## 1 Afghanistan  1952  28.801  779.4453
+## 2 Afghanistan  1972  36.088  739.9811
+## 3 Afghanistan  1992  41.674  649.3414
+## 4     Albania  1952  55.230 1601.0561
+```
+
+---
+
+## Making data tidy - spread()
+
+### `spread(data, key, value, fill=NA, ...)`
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### `spread(data, key = ? , value = ?)`
+
+
+
+```
+## # A tibble: 4 x 3
+##   subject measure_type result
+##     <chr>        <chr>  <dbl>
+## 1    S001           RT   1.45
+## 2    S001     hit_rate   0.71
+## 3    S002           RT   1.20
+## 4    S002     hit_rate   0.56
+```
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### `spread(data, key = ? , value = ?)`
+
+
+```
+## # A tibble: 4 x 3
+##   subject measure_type result
+##     <chr>        <chr>  <dbl>
+## 1    S001           RT   1.45
+## 2    S001     hit_rate   0.71
+## 3    S002           RT   1.20
+## 4    S002     hit_rate   0.56
+```
+
+```r
+spread(data=my_data, key=measure_type, value = result)
+```
+
+```
+## # A tibble: 2 x 3
+##   subject hit_rate    RT
+## *   <chr>    <dbl> <dbl>
+## 1    S001     0.71  1.45
+## 2    S002     0.56  1.20
+```
+
+
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### Use the `spread()` function to go from:
+
+```
+## # A tibble: 4 x 4
+##       country  year variable_name variable_value
+##        <fctr> <int>         <chr>          <dbl>
+## 1 Afghanistan  1952       lifeExp         28.801
+## 2 Afghanistan  1972       lifeExp         36.088
+## 3 Afghanistan  1992       lifeExp         41.674
+## 4     Albania  1952       lifeExp         55.230
+```
+to 
+
+
+```
+## # A tibble: 4 x 4
+##       country  year lifeExp gdpPercap
+##        <fctr> <int>   <dbl>     <dbl>
+## 1 Afghanistan  1952  28.801  779.4453
+## 2 Afghanistan  1972  36.088  739.9811
+## 3 Afghanistan  1992  41.674  649.3414
+## 4     Albania  1952  55.230 1601.0561
+```
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### Use the `spread()` function:
+
+
+```
+## # A tibble: 4 x 4
+##       country  year variable_name variable_value
+##        <fctr> <int>         <chr>          <dbl>
+## 1 Afghanistan  1952       lifeExp         28.801
+## 2 Afghanistan  1972       lifeExp         36.088
+## 3 Afghanistan  1992       lifeExp         41.674
+## 4     Albania  1952       lifeExp         55.230
+```
+
+
+```r
+spread(gapminder_1, key = variable_name, value = variable_value)
+```
+
+
+---.smallcode
+
+## Making data tidy - spread()
+
+### Write the correct `spread()` function:
+
+
+```
+## # A tibble: 4 x 4
+##       country  year variable_name variable_value
+##        <fctr> <int>         <chr>          <dbl>
+## 1 Afghanistan  1952       lifeExp         28.801
+## 2 Afghanistan  1972       lifeExp         36.088
+## 3 Afghanistan  1992       lifeExp         41.674
+## 4     Albania  1952       lifeExp         55.230
+```
+
+
+```r
+spread(gapminder_1, key = variable_name, value = variable_value)
+```
+
+```
+## # A tibble: 426 x 4
+##        country  year gdpPercap lifeExp
+##  *      <fctr> <int>     <dbl>   <dbl>
+##  1 Afghanistan  1952  779.4453  28.801
+##  2 Afghanistan  1972  739.9811  36.088
+##  3 Afghanistan  1992  649.3414  41.674
+##  4     Albania  1952 1601.0561  55.230
+##  5     Albania  1972 3313.4222  67.690
+##  6     Albania  1992 2497.4379  71.581
+##  7     Algeria  1952 2449.0082  43.077
+##  8     Algeria  1972 4182.6638  54.518
+##  9     Algeria  1992 5023.2166  67.744
+## 10      Angola  1952 3520.6103  30.015
+## # ... with 416 more rows
+```
+
+
+---.smallcode
+
+## Making data tidy 
+
+### How do we get from :
+
+
+```
+## # A tibble: 4 x 7
+##       country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##        <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+## 1 Afghanistan       779.4453       739.9811       649.3414       28.801
+## 2     Albania      1601.0561      3313.4222      2497.4379       55.230
+## 3     Algeria      2449.0082      4182.6638      5023.2166       43.077
+## 4      Angola      3520.6103      5473.2880      2627.8457       30.015
+## # ... with 2 more variables: lifeExp_1972 <dbl>, lifeExp_1992 <dbl>
+```
+ to
+ 
+
+```
+## # A tibble: 4 x 4
+##       country  year lifeExp gdpPercap
+##        <fctr> <int>   <dbl>     <dbl>
+## 1 Afghanistan  1952  28.801  779.4453
+## 2 Afghanistan  1972  36.088  739.9811
+## 3 Afghanistan  1992  41.674  649.3414
+## 4     Albania  1952  55.230 1601.0561
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### Step 1: `gather()`
+
+
+```
+## # A tibble: 3 x 7
+##       country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##        <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+## 1 Afghanistan       779.4453       739.9811       649.3414       28.801
+## 2     Albania      1601.0561      3313.4222      2497.4379       55.230
+## 3     Algeria      2449.0082      4182.6638      5023.2166       43.077
+## # ... with 2 more variables: lifeExp_1972 <dbl>, lifeExp_1992 <dbl>
+```
+ to
+ 
+
+```
+## # A tibble: 4 x 3
+##       country  variable_type variable_value
+##        <fctr>          <chr>          <dbl>
+## 1 Afghanistan gdpPercap_1952       779.4453
+## 2     Albania gdpPercap_1952      1601.0561
+## 3     Algeria gdpPercap_1952      2449.0082
+## 4      Angola gdpPercap_1952      3520.6103
+```
+
+---.smallcode
+
+## Making data tidy - separate()
+
+### Step 2: `separate()`
+
+
+```
+## # A tibble: 3 x 7
+##       country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##        <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+## 1 Afghanistan       779.4453       739.9811       649.3414       28.801
+## 2     Albania      1601.0561      3313.4222      2497.4379       55.230
+## 3     Algeria      2449.0082      4182.6638      5023.2166       43.077
+## # ... with 2 more variables: lifeExp_1972 <dbl>, lifeExp_1992 <dbl>
+```
+ to
+ 
+
+```
+## # A tibble: 6 x 4
+##       country  var_type  year variable_value
+##        <fctr>     <chr> <chr>          <dbl>
+## 1 Afghanistan gdpPercap  1952       779.4453
+## 2     Albania gdpPercap  1952      1601.0561
+## 3     Algeria gdpPercap  1952      2449.0082
+## 4      Angola gdpPercap  1952      3520.6103
+## 5   Argentina gdpPercap  1952      5911.3151
+## 6   Australia gdpPercap  1952     10039.5956
+```
+
+---.smallcode
+
+## Making data tidy - gather()  again
+
+### Step 3: `gather()`
+
+
+```
+## # A tibble: 6 x 4
+##       country  var_type  year variable_value
+##        <fctr>     <chr> <chr>          <dbl>
+## 1 Afghanistan gdpPercap  1952       779.4453
+## 2     Albania gdpPercap  1952      1601.0561
+## 3     Algeria gdpPercap  1952      2449.0082
+## 4      Angola gdpPercap  1952      3520.6103
+## 5   Argentina gdpPercap  1952      5911.3151
+## 6   Australia gdpPercap  1952     10039.5956
+```
+ to
+ 
+
+```
+## # A tibble: 6 x 4
+##       country  year gdpPercap lifeExp
+##        <fctr> <chr>     <dbl>   <dbl>
+## 1 Afghanistan  1952  779.4453  28.801
+## 2 Afghanistan  1972  739.9811  36.088
+## 3 Afghanistan  1992  649.3414  41.674
+## 4     Albania  1952 1601.0561  55.230
+## 5     Albania  1972 3313.4222  67.690
+## 6     Albania  1992 2497.4379  71.581
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+
+
+```
+## # A tibble: 1 x 5
+##   subject hitrate.session1 hitrate.session2 RT.session1 RT.session2
+## *   <chr>            <dbl>            <dbl>       <dbl>       <dbl>
+## 1    S001             0.74             0.85        1.45        1.23
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+
+```
+## # A tibble: 1 x 5
+##   subject hitrate.session1 hitrate.session2 RT.session1 RT.session2
+## *   <chr>            <dbl>            <dbl>       <dbl>       <dbl>
+## 1    S001             0.74             0.85        1.45        1.23
+```
+
+```r
+my_data_2 <- gather(data = my_data, key = variable, value = result, 
+                    hitrate.session1, hitrate.session2, 
+                    RT.session1, RT.session2)
+```
+
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+
+```
+## # A tibble: 1 x 5
+##   subject hitrate.session1 hitrate.session2 RT.session1 RT.session2
+## *   <chr>            <dbl>            <dbl>       <dbl>       <dbl>
+## 1    S001             0.74             0.85        1.45        1.23
+```
+
+```r
+( my_data_2 <- gather(data = my_data, key = variable, value = result, hitrate.session1, 
+                      hitrate.session2, RT.session1, RT.session2) )
+```
+
+```
+## # A tibble: 4 x 3
+##   subject         variable result
+##     <chr>            <chr>  <dbl>
+## 1    S001 hitrate.session1   0.74
+## 2    S001 hitrate.session2   0.85
+## 3    S001      RT.session1   1.45
+## 4    S001      RT.session2   1.23
+```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+
+```
+## # A tibble: 1 x 5
+##   subject hitrate.session1 hitrate.session2 RT.session1 RT.session2
+## *   <chr>            <dbl>            <dbl>       <dbl>       <dbl>
+## 1    S001             0.74             0.85        1.45        1.23
+```
+
+```r
+( my_data_2 <- gather(data = my_data, key = variable, value = result, hitrate.session1:RT.session2) )
+```
+
+```
+## # A tibble: 4 x 3
+##   subject         variable result
+##     <chr>            <chr>  <dbl>
+## 1    S001 hitrate.session1   0.74
+## 2    S001 hitrate.session2   0.85
+## 3    S001      RT.session1   1.45
+## 4    S001      RT.session2   1.23
+```
+
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+
+```
+## # A tibble: 1 x 5
+##   subject hitrate.session1 hitrate.session2 RT.session1 RT.session2
+## *   <chr>            <dbl>            <dbl>       <dbl>       <dbl>
+## 1    S001             0.74             0.85        1.45        1.23
+```
+
+```r
+( my_data_2 <- gather(data = my_data, key = variable, value = result,  -subject) )
+```
+
+```
+## # A tibble: 4 x 3
+##   subject         variable result
+##     <chr>            <chr>  <dbl>
+## 1    S001 hitrate.session1   0.74
+## 2    S001 hitrate.session2   0.85
+## 3    S001      RT.session1   1.45
+## 4    S001      RT.session2   1.23
+```
+
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = , value = )`
+
+
+```
+## # A tibble: 1 x 5
+##   subject hitrate.session1 hitrate.session2 RT.session1 RT.session2
+## *   <chr>            <dbl>            <dbl>       <dbl>       <dbl>
+## 1    S001             0.74             0.85        1.45        1.23
+```
+
+```r
+gather(data = my_data, key = variable, value = result) 
+```
+
+```
+## # A tibble: 5 x 2
+##           variable result
+##              <chr>  <chr>
+## 1          subject   S001
+## 2 hitrate.session1   0.74
+## 3 hitrate.session2   0.85
+## 4      RT.session1   1.45
+## 5      RT.session2   1.23
+```
+
+
+
+---.smallcode
+
+## Making data tidy - separate()
+
+### `separate(data = , col = , into = , sep = , ...)`
+
+
+```
+## # A tibble: 4 x 3
+##   subject         variable result
+##     <chr>            <chr>  <dbl>
+## 1    S001 hitrate.session1   0.74
+## 2    S001 hitrate.session2   0.85
+## 3    S001      RT.session1   1.45
+## 4    S001      RT.session2   1.23
+```
+
+```r
+( my_data_3 <- separate(data = my_data_2 , col = variable, into =  c("RT","session")) )
+```
+
+```
+## # A tibble: 4 x 4
+##   subject      RT  session result
+## *   <chr>   <chr>    <chr>  <dbl>
+## 1    S001 hitrate session1   0.74
+## 2    S001 hitrate session2   0.85
+## 3    S001      RT session1   1.45
+## 4    S001      RT session2   1.23
+```
+
+---.smallcode
+
+## Making data tidy - spread again()
+
+### `spread(data = , key = , value = )`
+
+
+```
+## # A tibble: 4 x 4
+##   subject      RT  session result
+## *   <chr>   <chr>    <chr>  <dbl>
+## 1    S001 hitrate session1   0.74
+## 2    S001 hitrate session2   0.85
+## 3    S001      RT session1   1.45
+## 4    S001      RT session2   1.23
+```
+
+---.smallcode
+
+## Making data tidy - spread again()
+
+### `spread(data = , key = , value = )`
+
+
+```
+## # A tibble: 4 x 4
+##   subject      RT  session result
+## *   <chr>   <chr>    <chr>  <dbl>
+## 1    S001 hitrate session1   0.74
+## 2    S001 hitrate session2   0.85
+## 3    S001      RT session1   1.45
+## 4    S001      RT session2   1.23
+```
+
+```r
+( my_data_final <- spread(my_data_3, key=RT, value = result) )
+```
+
+```
+## # A tibble: 2 x 4
+##   subject  session hitrate    RT
+## *   <chr>    <chr>   <dbl> <dbl>
+## 1    S001 session1    0.74  1.45
+## 2    S001 session2    0.85  1.23
+```
+
+
+---.smallcode
+
+## Making data tidy - piping `%>%`
+
+### Full tidying code : 
+
+
+```r
+my_data_2 <- gather(data = my_data, key = variable_type, value = result, -subject)
+my_data_3 <- separate(data = my_data_2, col = variable_type, into = c('var_type', "session"))
+my_data_final <- spread(data = my_data_3, key = var_type, value = result)
+```
+
+
+---.smallcode
+
+## Making data tidy - piping `%>%`
+
+### Full tidying code : 
+
+
+```r
+my_data_2 <- gather(data = my_data, key = variable_type, value = result, -subject)
+my_data_3 <- separate(data = my_data_2, col = variable_type, into = c('var_type', "session"))
+my_data_final <- spread(data = my_data_3, key = var_type, value = result)
+```
+
+### Piped tidying code : 
+
+
+```r
+my_data %>% 
+  gather(key = variable_type, value = result, -subject) %>%
+  separate(col = variable_type, into = c('var_type', "session")) %>%
+  spread(key = var_type, value = result)
+```
+
+```
+## # A tibble: 2 x 4
+##   subject  session hitrate    RT
+## *   <chr>    <chr>   <dbl> <dbl>
+## 1    S001 session1    0.74  1.45
+## 2    S001 session2    0.85  1.23
+```
+
+
+---.smallcode
+
+## Making data tidy - piping `%>%`
+
+### Full tidying code : 
+
+
+```r
+my_data_2 <- gather(data = my_data, key = variable_type, value = result, -subject)
+my_data_3 <- separate(data = my_data_2, col = variable_type, into = c('var_type', "session"))
+my_data_final <- spread(data = my_data_3, key = var_type, value = result)
+```
+
+### Piped tidying code : 
+
+
+```r
+my_data %>% 
+  gather(key = variable_type, value = result, -subject) %>%
+  separate(col = variable_type, into = c('var_type', "session")) %>%
+  spread(key = var_type, value = result) -> my_data_final
+```
+
+---.smallcode
+
+## Making data tidy - your turn !!
+
+```
+## # A tibble: 4 x 7
+##       country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##        <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+## 1 Afghanistan       779.4453       739.9811       649.3414       28.801
+## 2     Albania      1601.0561      3313.4222      2497.4379       55.230
+## 3     Algeria      2449.0082      4182.6638      5023.2166       43.077
+## 4      Angola      3520.6103      5473.2880      2627.8457       30.015
+## # ... with 2 more variables: lifeExp_1972 <dbl>, lifeExp_1992 <dbl>
+```
+ to
+ 
+
+```
+## # A tibble: 4 x 4
+##       country  year lifeExp gdpPercap
+##        <fctr> <int>   <dbl>     <dbl>
+## 1 Afghanistan  1952  28.801  779.4453
+## 2 Afghanistan  1972  36.088  739.9811
+## 3 Afghanistan  1992  41.674  649.3414
+## 4     Albania  1952  55.230 1601.0561
+```
+
+---.smallcode
+
+## Making data tidy - a solution
+
+```
+## # A tibble: 2 x 7
+##       country gdpPercap_1952 gdpPercap_1972 gdpPercap_1992 lifeExp_1952
+##        <fctr>          <dbl>          <dbl>          <dbl>        <dbl>
+## 1 Afghanistan       779.4453       739.9811       649.3414       28.801
+## 2     Albania      1601.0561      3313.4222      2497.4379       55.230
+## # ... with 2 more variables: lifeExp_1972 <dbl>, lifeExp_1992 <dbl>
+```
+ to
+ 
+
+```r
+gapminder_2 %>%
+  gather(key= variable_type, value=variable_value, -country) %>%
+  separate(col=variable_type, into=c("var_type", "year")) %>%
+  spread(key=var_type, value=variable_value)
+```
+
+```
+## # A tibble: 426 x 4
+##        country  year gdpPercap lifeExp
+##  *      <fctr> <chr>     <dbl>   <dbl>
+##  1 Afghanistan  1952  779.4453  28.801
+##  2 Afghanistan  1972  739.9811  36.088
+##  3 Afghanistan  1992  649.3414  41.674
+##  4     Albania  1952 1601.0561  55.230
+##  5     Albania  1972 3313.4222  67.690
+##  6     Albania  1992 2497.4379  71.581
+##  7     Algeria  1952 2449.0082  43.077
+##  8     Algeria  1972 4182.6638  54.518
+##  9     Algeria  1992 5023.2166  67.744
+## 10      Angola  1952 3520.6103  30.015
+## # ... with 416 more rows
+```
+
+---.smallcode
+### Making data tidy - joining tibbles
+
+
+```
+## # A tibble: 2 x 4
+##       country `1952` `1972` `1992`
+##        <fctr>  <dbl>  <dbl>  <dbl>
+## 1 Afghanistan 28.801 36.088 41.674
+## 2     Albania 55.230 67.690 71.581
+```
+
+```
+## # A tibble: 2 x 4
+##       country    `1952`    `1972`    `1992`
+##        <fctr>     <dbl>     <dbl>     <dbl>
+## 1 Afghanistan  779.4453  739.9811  649.3414
+## 2     Albania 1601.0561 3313.4222 2497.4379
+```
+
+---.smallcode
+
+### Making data tidy - joining tibbles
+
+
+```
+## # A tibble: 4 x 3
+##   subject  session    RT
+##     <chr>    <chr> <dbl>
+## 1    S001 session1  1.45
+## 2    S001 session2  1.23
+## 3    S002 session1  1.74
+## 4    S002 session2  1.85
+```
+
+```
+## # A tibble: 4 x 3
+##   subject  session hitrate
+##     <chr>    <chr>   <dbl>
+## 1    S001 session1    0.65
+## 2    S001 session2    0.73
+## 3    S002 session1    0.71
+## 4    S002 session2    0.68
+```
+
+
+---.smallcode
+### Making data tidy - joining datasets
+
+
+```
+## # A tibble: 6 x 3
+##       country  year lifeExp
+##        <fctr> <chr>   <dbl>
+## 1 Afghanistan  1952  28.801
+## 2     Albania  1952  55.230
+## 3     Algeria  1952  43.077
+## 4      Angola  1952  30.015
+## 5   Argentina  1952  62.485
+## 6   Australia  1952  69.120
+```
+
+```
+## # A tibble: 6 x 3
+##       country  year  gdpPercap
+##        <fctr> <chr>      <dbl>
+## 1 Afghanistan  1952   779.4453
+## 2     Albania  1952  1601.0561
+## 3     Algeria  1952  2449.0082
+## 4      Angola  1952  3520.6103
+## 5   Argentina  1952  5911.3151
+## 6   Australia  1952 10039.5956
+```
+
+
+--- 
+
+## Tidy data Joining datasets
+
 <img class=center
-  src=assets/img/session_1_r_list2.png height=100px>
+  src=assets/img/session_2_join-setup.png width=300px>
 
 
-*** =fullwidth
+--- .smallcode &twocol_l
 
-<br>
-  Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+## Tidy data Joining datasets
 
+*** =left
+### Inner join
+
+<img class=center
+  src=assets/img/session_2_join-inner.png width=300px>
+
+*** =right
+### Outer join
+<img class=center
+  src=assets/img/session_2_join-outer.png width=300px>
 
