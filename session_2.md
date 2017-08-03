@@ -646,7 +646,7 @@ mpg$manufacturer<-as.factor(mpg$manufacturer)
 ```
 ## # A tibble: 2 x 11
 ##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+##         <fctr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
 ## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
 ## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
 ## # ... with 1 more variables: class <chr>
@@ -662,7 +662,7 @@ mpg$manufacturer<-as.factor(mpg$manufacturer)
 ```
 ## # A tibble: 2 x 11
 ##   manufacturer model displ  year   cyl      trans   drv   cty   hwy    fl
-##          <chr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
+##         <fctr> <chr> <dbl> <int> <int>      <chr> <chr> <int> <int> <chr>
 ## 1         audi    a4   1.8  1999     4   auto(l5)     f    18    29     p
 ## 2         audi    a4   1.8  1999     4 manual(m5)     f    21    29     p
 ## # ... with 1 more variables: class <chr>
@@ -724,7 +724,10 @@ str(gapminder$country)
 
   * `gather()`
   * `spread()`
-  
+  * `separate()`
+  * `inner_join()` and friends
+
+
 ---
 
 ## Tidy data
@@ -733,7 +736,9 @@ str(gapminder$country)
 
 
 
----
+<img class=center
+  src=assets/img/session_2_tidy_data.png width=800px>
+  
 
 --- &twocol_l
 
@@ -1018,6 +1023,14 @@ gapminder_4_1 and _2
 
 **NOT TIDY**
 
+---
+
+## Making data tidy - a cheatsheet 
+
+
+<img class=center
+  src=assets/img/session_2_data_wranling.png width = 700px>
+
 
 ---.smallcode
 
@@ -1051,7 +1064,12 @@ to
 
 ## Making data tidy - spread()
 
-### `spread(data, key, value, fill=NA, ...)`
+### `spread(data, key = measure_type , value= result, fill=NA, ...)`
+
+<img class=center
+  src=assets/img/session_2_spread.png width = 800px>
+
+
 
 ---.smallcode
 
@@ -1315,6 +1333,16 @@ spread(gapminder_1, key = variable_name, value = variable_value)
 ## 5     Albania  1972 3313.4222  67.690
 ## 6     Albania  1992 2497.4379  71.581
 ```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = session, value = RT )`
+
+
+<img class=center
+  src=assets/img/session_2_gather.png width = 800px>
 
 ---.smallcode
 
@@ -1683,101 +1711,990 @@ gapminder_2 %>%
 ## # ... with 416 more rows
 ```
 
----.smallcode
-### Making data tidy - joining tibbles
+--- .smallcode &twocol_l
+
+## Making data tidy - joining datasets
+
+*** =left
 
 
 ```
-## # A tibble: 2 x 4
+## # A tibble: 5 x 4
 ##       country `1952` `1972` `1992`
 ##        <fctr>  <dbl>  <dbl>  <dbl>
 ## 1 Afghanistan 28.801 36.088 41.674
 ## 2     Albania 55.230 67.690 71.581
+## 3     Algeria 43.077 54.518 67.744
+## 4      Angola 30.015 37.928 40.647
+## 5   Argentina 62.485 67.065 71.868
 ```
 
+*** =right
+
+
 ```
-## # A tibble: 2 x 4
+## # A tibble: 5 x 4
 ##       country    `1952`    `1972`    `1992`
 ##        <fctr>     <dbl>     <dbl>     <dbl>
 ## 1 Afghanistan  779.4453  739.9811  649.3414
 ## 2     Albania 1601.0561 3313.4222 2497.4379
+## 3     Algeria 2449.0082 4182.6638 5023.2166
+## 4      Angola 3520.6103 5473.2880 2627.8457
+## 5   Argentina 5911.3151 9443.0385 9308.4187
 ```
 
----.smallcode
+--- .smallcode &twocol_l
 
-### Making data tidy - joining tibbles
-
-
-```
-## # A tibble: 4 x 3
-##   subject  session    RT
-##     <chr>    <chr> <dbl>
-## 1    S001 session1  1.45
-## 2    S001 session2  1.23
-## 3    S002 session1  1.74
-## 4    S002 session2  1.85
-```
-
-```
-## # A tibble: 4 x 3
-##   subject  session hitrate
-##     <chr>    <chr>   <dbl>
-## 1    S001 session1    0.65
-## 2    S001 session2    0.73
-## 3    S002 session1    0.71
-## 4    S002 session2    0.68
-```
-
-
----.smallcode
-### Making data tidy - joining datasets
-
-
-```
-## # A tibble: 6 x 3
-##       country  year lifeExp
-##        <fctr> <chr>   <dbl>
-## 1 Afghanistan  1952  28.801
-## 2     Albania  1952  55.230
-## 3     Algeria  1952  43.077
-## 4      Angola  1952  30.015
-## 5   Argentina  1952  62.485
-## 6   Australia  1952  69.120
-```
-
-```
-## # A tibble: 6 x 3
-##       country  year  gdpPercap
-##        <fctr> <chr>      <dbl>
-## 1 Afghanistan  1952   779.4453
-## 2     Albania  1952  1601.0561
-## 3     Algeria  1952  2449.0082
-## 4      Angola  1952  3520.6103
-## 5   Argentina  1952  5911.3151
-## 6   Australia  1952 10039.5956
-```
-
-
---- 
-
-## Tidy data Joining datasets
+## Making data tidy - joining datasets
 
 <img class=center
-  src=assets/img/session_2_join-setup.png width=300px>
+  src=assets/img/session_2_join-setup.png width=150>
+  
+*** =left
+
+
+
+
+```
+## # A tibble: 3 x 2
+##   subject    RT
+##     <chr> <dbl>
+## 1    S001  1.45
+## 2    S002  1.23
+## 3    S003  1.74
+```
+
+*** =right
+
+
+
+
+```
+## # A tibble: 3 x 2
+##   subject hitrate
+##     <chr>   <dbl>
+## 1    S001    0.65
+## 2    S002    0.73
+## 3    S004    0.71
+```
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
 
 
 --- .smallcode &twocol_l
 
-## Tidy data Joining datasets
-
-*** =left
-### Inner join
+## Making data tidy - inner_join()
 
 <img class=center
   src=assets/img/session_2_join-inner.png width=300px>
+  
+*** =left
+
+
+```
+## # A tibble: 3 x 2
+##   subject    RT
+##     <chr> <dbl>
+## 1    S001  1.45
+## 2    S002  1.23
+## 3    S003  1.74
+```
+
+
+
+
+```
+## # A tibble: 3 x 2
+##   subject hitrate
+##     <chr>   <dbl>
+## 1    S001    0.65
+## 2    S002    0.73
+## 3    S004    0.71
+```
+
+---.smallcode &twocol_l
+
+## Making data tidy - inner_join()
+
+<img class=center
+  src=assets/img/session_2_join-inner.png width=300px>
+  
+
+---.smallcode &twocol_l
+
+## Making data tidy - inner_join()
+
+<img class=center
+  src=assets/img/session_2_join-inner.png width=300px>
+  
+*** =left
+
+
+```
+## # A tibble: 3 x 2
+##   subject    RT
+##     <chr> <dbl>
+## 1    S001  1.45
+## 2    S002  1.23
+## 3    S003  1.74
+```
+
+
+
+
+```
+## # A tibble: 3 x 2
+##   subject hitrate
+##     <chr>   <dbl>
+## 1    S001    0.65
+## 2    S002    0.73
+## 3    S004    0.71
+```
 
 *** =right
-### Outer join
+
+
+```r
+inner_join(data_1, data_2, by="subject")
+```
+
+```
+## # A tibble: 2 x 3
+##   subject    RT hitrate
+##     <chr> <dbl>   <dbl>
+## 1    S001  1.45    0.65
+## 2    S002  1.23    0.73
+```
+
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - left_join()
+
 <img class=center
-  src=assets/img/session_2_join-outer.png width=300px>
+  src=assets/img/session_2_join_left_outer.png width=300px>
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - left_join()
+
+<img class=center
+  src=assets/img/session_2_join_left_outer.png width=300px>
+
+*** =left
+
+
+```
+## # A tibble: 3 x 2
+##   subject    RT
+##     <chr> <dbl>
+## 1    S001  1.45
+## 2    S002  1.23
+## 3    S003  1.74
+```
+
+
+
+```
+## # A tibble: 3 x 2
+##   subject hitrate
+##     <chr>   <dbl>
+## 1    S001    0.65
+## 2    S002    0.73
+## 3    S004    0.71
+```
+
+*** =right
+
+
+```r
+left_join(data_1, data_2, by="subject")
+```
+
+```
+## # A tibble: 3 x 3
+##   subject    RT hitrate
+##     <chr> <dbl>   <dbl>
+## 1    S001  1.45    0.65
+## 2    S002  1.23    0.73
+## 3    S003  1.74      NA
+```
+
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - right_join()
+
+<img class=center
+  src=assets/img/session_2_join_right_outer.png width=300px>
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - right_join()
+
+<img class=center
+  src=assets/img/session_2_join_right_outer.png width=300px>
+
+*** =left
+
+
+```
+## # A tibble: 3 x 2
+##   subject    RT
+##     <chr> <dbl>
+## 1    S001  1.45
+## 2    S002  1.23
+## 3    S003  1.74
+```
+
+
+
+```
+## # A tibble: 3 x 2
+##   subject hitrate
+##     <chr>   <dbl>
+## 1    S001    0.65
+## 2    S002    0.73
+## 3    S004    0.71
+```
+
+*** =right
+
+
+```r
+right_join(data_1, data_2, by="subject")
+```
+
+```
+## # A tibble: 3 x 3
+##   subject    RT hitrate
+##     <chr> <dbl>   <dbl>
+## 1    S001  1.45    0.65
+## 2    S002  1.23    0.73
+## 3    S004    NA    0.71
+```
+
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - full_join()
+
+<img class=center
+  src=assets/img/session_2_join_full_outer.png width=300px>
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - full_join()
+
+<img class=center
+  src=assets/img/session_2_join_full_outer.png width=300px>
+
+*** =left
+
+
+```
+## # A tibble: 3 x 2
+##   subject    RT
+##     <chr> <dbl>
+## 1    S001  1.45
+## 2    S002  1.23
+## 3    S003  1.74
+```
+
+
+
+```
+## # A tibble: 3 x 2
+##   subject hitrate
+##     <chr>   <dbl>
+## 1    S001    0.65
+## 2    S002    0.73
+## 3    S004    0.71
+```
+
+*** =right
+
+
+```r
+full_join(data_1, data_2, by="subject")
+```
+
+```
+## # A tibble: 4 x 3
+##   subject    RT hitrate
+##     <chr> <dbl>   <dbl>
+## 1    S001  1.45    0.65
+## 2    S002  1.23    0.73
+## 3    S003  1.74      NA
+## 4    S004    NA    0.71
+```
+
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - Challenge 
+### Join our two datasets into one !
+
+*** =left
+
+```
+## # A tibble: 142 x 4
+##        country `1952` `1972` `1992`
+##  *      <fctr>  <dbl>  <dbl>  <dbl>
+##  1 Afghanistan 28.801 36.088 41.674
+##  2     Albania 55.230 67.690 71.581
+##  3     Algeria 43.077 54.518 67.744
+##  4      Angola 30.015 37.928 40.647
+##  5   Argentina 62.485 67.065 71.868
+##  6   Australia 69.120 71.930 77.560
+##  7     Austria 66.800 70.630 76.040
+##  8     Bahrain 50.939 63.300 72.601
+##  9  Bangladesh 37.484 45.252 56.018
+## 10     Belgium 68.000 71.440 76.460
+## # ... with 132 more rows
+```
+
+*** =right
+
+```
+## # A tibble: 142 x 4
+##        country     `1952`     `1972`     `1992`
+##  *      <fctr>      <dbl>      <dbl>      <dbl>
+##  1 Afghanistan   779.4453   739.9811   649.3414
+##  2     Albania  1601.0561  3313.4222  2497.4379
+##  3     Algeria  2449.0082  4182.6638  5023.2166
+##  4      Angola  3520.6103  5473.2880  2627.8457
+##  5   Argentina  5911.3151  9443.0385  9308.4187
+##  6   Australia 10039.5956 16788.6295 23424.7668
+##  7     Austria  6137.0765 16661.6256 27042.0187
+##  8     Bahrain  9867.0848 18268.6584 19035.5792
+##  9  Bangladesh   684.2442   630.2336   837.8102
+## 10     Belgium  8343.1051 16672.1436 25575.5707
+## # ... with 132 more rows
+```
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - Challenge 
+### Join our two datasets into one !
+
+*** =left
+
+```r
+gapminder_4_1 %>% 
+  gather(key=year, value=lifeExp,-country) -> 
+  gapminder_4_1_temp 
+```
+
+
+```
+## # A tibble: 426 x 3
+##        country  year lifeExp
+##         <fctr> <chr>   <dbl>
+##  1 Afghanistan  1952  28.801
+##  2     Albania  1952  55.230
+##  3     Algeria  1952  43.077
+##  4      Angola  1952  30.015
+##  5   Argentina  1952  62.485
+##  6   Australia  1952  69.120
+##  7     Austria  1952  66.800
+##  8     Bahrain  1952  50.939
+##  9  Bangladesh  1952  37.484
+## 10     Belgium  1952  68.000
+## # ... with 416 more rows
+```
+
+*** =right
+
+
+```r
+gapminder_4_2 %>% 
+  gather(key=year, value=lifeExp,-country) -> 
+  gapminder_4_2_temp
+```
+
+
+
+```
+## # A tibble: 426 x 3
+##        country  year    lifeExp
+##         <fctr> <chr>      <dbl>
+##  1 Afghanistan  1952   779.4453
+##  2     Albania  1952  1601.0561
+##  3     Algeria  1952  2449.0082
+##  4      Angola  1952  3520.6103
+##  5   Argentina  1952  5911.3151
+##  6   Australia  1952 10039.5956
+##  7     Austria  1952  6137.0765
+##  8     Bahrain  1952  9867.0848
+##  9  Bangladesh  1952   684.2442
+## 10     Belgium  1952  8343.1051
+## # ... with 416 more rows
+```
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - Challenge 
+### Join our two datasets into one !
+
+
+```r
+inner_join(gapminder_4_1_temp, gapminder_4_2_temp, by=c("country", "year")) 
+```
+
+```
+## # A tibble: 6 x 4
+##       country  year lifeExp.x  lifeExp.y
+##        <fctr> <chr>     <dbl>      <dbl>
+## 1 Afghanistan  1952    28.801   779.4453
+## 2     Albania  1952    55.230  1601.0561
+## 3     Algeria  1952    43.077  2449.0082
+## 4      Angola  1952    30.015  3520.6103
+## 5   Argentina  1952    62.485  5911.3151
+## 6   Australia  1952    69.120 10039.5956
+```
+
+*** =left
+
+
+```
+## # A tibble: 426 x 3
+##        country  year lifeExp
+##         <fctr> <chr>   <dbl>
+##  1 Afghanistan  1952  28.801
+##  2     Albania  1952  55.230
+##  3     Algeria  1952  43.077
+##  4      Angola  1952  30.015
+##  5   Argentina  1952  62.485
+##  6   Australia  1952  69.120
+##  7     Austria  1952  66.800
+##  8     Bahrain  1952  50.939
+##  9  Bangladesh  1952  37.484
+## 10     Belgium  1952  68.000
+## # ... with 416 more rows
+```
+
+*** =right
+
+
+```
+## # A tibble: 426 x 3
+##        country  year    lifeExp
+##         <fctr> <chr>      <dbl>
+##  1 Afghanistan  1952   779.4453
+##  2     Albania  1952  1601.0561
+##  3     Algeria  1952  2449.0082
+##  4      Angola  1952  3520.6103
+##  5   Argentina  1952  5911.3151
+##  6   Australia  1952 10039.5956
+##  7     Austria  1952  6137.0765
+##  8     Bahrain  1952  9867.0848
+##  9  Bangladesh  1952   684.2442
+## 10     Belgium  1952  8343.1051
+## # ... with 416 more rows
+```
+
+---
+
+## Tidy data
+
+### Be able to identify if a dataset is tidy
+
+### Be able to use tidyverse functions to tidy a dataset
+
+  * `gather()`
+  * `spread()`
+  * `separate()`
+  * `inner_join()` and friends
+
+---
+
+## Using tidy data with ggplot
+
+### Be able to use *geoms*
+### Be able to use *aesthetics*
+### Be able to use facetting
+### Be able to modify a plot to improve visualization
+
+
+---
+
+## Using ggplot - a cheatsheet 
+
+
+<img class=center
+  src=assets/img/session_2_ggplot.png width=700px>
+
+
+---.smallcode &twocol_l
+
+## Geoms we have seen already
+
+*** =left
+### `geom_boxplot()`
+
+
+```r
+ggplot(data=iris, aes(x=Species, y=Petal.Length)) +
+  geom_boxplot() +
+  theme_light()
+```
+
+<img src="assets/fig/unnamed-chunk-130-1.png" title="plot of chunk unnamed-chunk-130" alt="plot of chunk unnamed-chunk-130" width="400px" style="display: block; margin: auto;" />
+
+*** =right
+### `geom_point()`
+
+```r
+ggplot(iris, aes(x=Petal.Length, y=Sepal.Width)) + 
+  geom_point() +
+  theme_gray()
+```
+
+<img src="assets/fig/unnamed-chunk-131-1.png" title="plot of chunk unnamed-chunk-131" alt="plot of chunk unnamed-chunk-131" width="400px" style="display: block; margin: auto;" />
+
+------.smallcode
+
+## ggplot challenges: make this plot !!
+
+<img src="assets/fig/unnamed-chunk-132-1.png" title="plot of chunk unnamed-chunk-132" alt="plot of chunk unnamed-chunk-132" width="500px" style="display: block; margin: auto;" />
+
+------.smallcode
+
+## ggplot challenges: make this plot !!
+
+
+```r
+ggplot(gapminder, aes(x=year, lifeExp)) + 
+  geom_point()
+```
+
+<img src="assets/fig/unnamed-chunk-133-1.png" title="plot of chunk unnamed-chunk-133" alt="plot of chunk unnamed-chunk-133" width="500px" style="display: block; margin: auto;" />
+
+------.smallcode
+
+## ggplot challenge: add color !!
+
+<img src="assets/fig/unnamed-chunk-134-1.png" title="plot of chunk unnamed-chunk-134" alt="plot of chunk unnamed-chunk-134" width="600px" style="display: block; margin: auto;" />
+
+------.smallcode
+
+## ggplot challenge: add color !!
+
+
+```r
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_point()
+```
+
+<img src="assets/fig/unnamed-chunk-135-1.png" title="plot of chunk unnamed-chunk-135" alt="plot of chunk unnamed-chunk-135" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: Jitter to reduce overplotting
+
+<img src="assets/fig/unnamed-chunk-136-1.png" title="plot of chunk unnamed-chunk-136" alt="plot of chunk unnamed-chunk-136" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: Jitter to reduce overplotting
+
+
+```r
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter()
+```
+
+<img src="assets/fig/unnamed-chunk-137-1.png" title="plot of chunk unnamed-chunk-137" alt="plot of chunk unnamed-chunk-137" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: Jitter to reduce overplotting
+
+<img src="assets/fig/unnamed-chunk-138-1.png" title="plot of chunk unnamed-chunk-138" alt="plot of chunk unnamed-chunk-138" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: Jitter to reduce overplotting
+
+
+```r
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter(width = 0.7)
+```
+
+<img src="assets/fig/unnamed-chunk-139-1.png" title="plot of chunk unnamed-chunk-139" alt="plot of chunk unnamed-chunk-139" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: Modify the shape to improve visibility
+
+<img src="assets/fig/unnamed-chunk-140-1.png" title="plot of chunk unnamed-chunk-140" alt="plot of chunk unnamed-chunk-140" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: Modify the shape to improve visibility
+
+
+```r
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter(width = 1, shape = 1) + 
+  theme_bw()
+```
+
+<img src="assets/fig/unnamed-chunk-141-1.png" title="plot of chunk unnamed-chunk-141" alt="plot of chunk unnamed-chunk-141" width="600px" style="display: block; margin: auto;" />
+
+
+---.smallcode
+
+## ggplot: Plot year as a factor
+
+<img src="assets/fig/unnamed-chunk-142-1.png" title="plot of chunk unnamed-chunk-142" alt="plot of chunk unnamed-chunk-142" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: Plot year as a factor
+
+
+```r
+ggplot(gapminder, aes(as.factor(year), lifeExp, color=continent)) + 
+  geom_jitter(width = 0.3, shape = 1) + 
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-143-1.png" title="plot of chunk unnamed-chunk-143" alt="plot of chunk unnamed-chunk-143" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp, color=continent)) + 
+  geom_line() + 
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp, color=continent)) + 
+  geom_line() + 
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-145-1.png" title="plot of chunk unnamed-chunk-145" alt="plot of chunk unnamed-chunk-145" width="600px" style="display: block; margin: auto;" />
+
+
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp, color=continent, group=country)) + 
+  geom_line() + 
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp, color=continent, group=country)) + 
+  geom_line() + 
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-147-1.png" title="plot of chunk unnamed-chunk-147" alt="plot of chunk unnamed-chunk-147" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot: using facets - `facet_wrap()`
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_wrap(~continent) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot: using facets - `facet_wrap()`
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_wrap(~continent) +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-149-1.png" title="plot of chunk unnamed-chunk-149" alt="plot of chunk unnamed-chunk-149" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : using facets - `facet_grid()`
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_grid(.~continent) +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-150-1.png" title="plot of chunk unnamed-chunk-150" alt="plot of chunk unnamed-chunk-150" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : using facets - `facet_grid()`
+
+<img src="assets/fig/unnamed-chunk-151-1.png" title="plot of chunk unnamed-chunk-151" alt="plot of chunk unnamed-chunk-151" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : using facets - `facet_grid()`
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-152-1.png" title="plot of chunk unnamed-chunk-152" alt="plot of chunk unnamed-chunk-152" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Adding a new *aesthetic*
+
+<img src="assets/fig/unnamed-chunk-153-1.png" title="plot of chunk unnamed-chunk-153" alt="plot of chunk unnamed-chunk-153" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Adding a new *aesthetic*
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-154-1.png" title="plot of chunk unnamed-chunk-154" alt="plot of chunk unnamed-chunk-154" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Transforming values to imrove visualization
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=log(gdpPercap))) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  scale_color_gradient( )  +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-155-1.png" title="plot of chunk unnamed-chunk-155" alt="plot of chunk unnamed-chunk-155" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Transforming values to imrove visualization
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  scale_color_gradient( trans = 'log' )  +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-156-1.png" title="plot of chunk unnamed-chunk-156" alt="plot of chunk unnamed-chunk-156" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Transforming values to imrove visualization
+
+
+```r
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) + 
+  geom_line(lwd = 1 ) + 
+  facet_grid(continent~.) +
+  scale_color_gradient( trans = 'log',guide="colourbar",breaks=c(1000,10000, 100000) )  +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-157-1.png" title="plot of chunk unnamed-chunk-157" alt="plot of chunk unnamed-chunk-157" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Create the following plot
+
+<img src="assets/fig/unnamed-chunk-158-1.png" title="plot of chunk unnamed-chunk-158" alt="plot of chunk unnamed-chunk-158" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Create the following plot
+
+
+```r
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point() + 
+  facet_grid(year~continent) +
+  theme_minimal()
+```
+
+<img src="assets/fig/unnamed-chunk-159-1.png" title="plot of chunk unnamed-chunk-159" alt="plot of chunk unnamed-chunk-159" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Improve plot quality
+
+
+```r
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  facet_grid(year~continent, scales = "free_x") +
+  theme_classic()
+```
+
+<img src="assets/fig/unnamed-chunk-161-1.png" title="plot of chunk unnamed-chunk-161" alt="plot of chunk unnamed-chunk-161" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Improve plot quality
+
+
+```r
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  facet_grid(year~continent, scales = "free_x") +
+  theme_minimal()
+```
+
+<img src="assets/fig/unnamed-chunk-162-1.png" title="plot of chunk unnamed-chunk-162" alt="plot of chunk unnamed-chunk-162" width="600px" style="display: block; margin: auto;" />
+
+
+---.smallcode
+
+## ggplot : Improve plot quality
+
+
+```r
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  scale_x_log10() +
+  facet_grid(year~continent, scales = "free_x") +
+  theme_minimal()
+```
+
+<img src="assets/fig/unnamed-chunk-163-1.png" title="plot of chunk unnamed-chunk-163" alt="plot of chunk unnamed-chunk-163" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : Improve plot quality
+
+
+```r
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  scale_x_log10() +
+  facet_grid(year~continent) +
+  theme_minimal()
+```
+
+<img src="assets/fig/unnamed-chunk-164-1.png" title="plot of chunk unnamed-chunk-164" alt="plot of chunk unnamed-chunk-164" width="600px" style="display: block; margin: auto;" />
+
+---.smallcode
+
+## ggplot : `filter()`, ggplot and piping
+
+
+```r
+gapminder %>%
+  filter(continent != "Oceania") %>%
+  ggplot(aes(gdpPercap, lifeExp)) + 
+    geom_point(shape = 1) + 
+    scale_x_log10() +
+    facet_grid(year~continent) +
+    theme_minimal()
+```
+
+<img src="assets/fig/unnamed-chunk-165-1.png" title="plot of chunk unnamed-chunk-165" alt="plot of chunk unnamed-chunk-165" width="600px" style="display: block; margin: auto;" />
+
+---
+
+## ggplot challenge: produce this plot
+
+<img src="assets/fig/unnamed-chunk-166-1.png" title="plot of chunk unnamed-chunk-166" alt="plot of chunk unnamed-chunk-166" width="800px" style="display: block; margin: auto;" />
+
+---
+
+## ggplot challenge: produce this plot 
+
+<img src="assets/fig/unnamed-chunk-167-1.png" title="plot of chunk unnamed-chunk-167" alt="plot of chunk unnamed-chunk-167" width="800px" style="display: block; margin: auto;" />
+
+---
+
+## ggplot challenge: produce this plot (for 2007)
+
+<img src="assets/fig/unnamed-chunk-168-1.png" title="plot of chunk unnamed-chunk-168" alt="plot of chunk unnamed-chunk-168" width="800px" style="display: block; margin: auto;" />
+
+---
+
+## Using tidy data with ggplot
+
+### Be able to use *geoms*
+* `geom_jitter()`
+* `geom_line()`
+
+### Be able to use *aesthetics* to convey meaning
+* color, size as a third dimension
+### Be able to use facetting
+* `facet_grid()`
+* `facet_wrap()`
+
+### Be able to modify a plot to improve visualization
+* transform axes or color scales
+* free or bind axes in facetted plots
 

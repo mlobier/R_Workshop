@@ -354,7 +354,10 @@ str(gapminder$country)
 
   * `gather()`
   * `spread()`
-  
+  * `separate()`
+  * `inner_join()` and friends
+
+
 ---
 
 ## Tidy data
@@ -363,7 +366,9 @@ str(gapminder$country)
 
 
 
----
+<img class=center
+  src=assets/img/session_2_tidy_data.png width=800px>
+  
 
 --- &twocol_l
 
@@ -503,6 +508,14 @@ gapminder_4_2[1:4,]
 
 **NOT TIDY**
 
+---
+
+## Making data tidy - a cheatsheet 
+
+
+<img class=center
+  src=assets/img/session_2_data_wranling.png width = 700px>
+
 
 ---.smallcode
 
@@ -522,7 +535,12 @@ gapminder_3[1:4,]
 
 ## Making data tidy - spread()
 
-### `spread(data, key, value, fill=NA, ...)`
+### `spread(data, key = measure_type , value= result, fill=NA, ...)`
+
+<img class=center
+  src=assets/img/session_2_spread.png width = 800px>
+
+
 
 ---.smallcode
 
@@ -664,6 +682,16 @@ gather(gapminder_2, key=variable_type, value = variable_value, -country) %>%
   head()
   
 ```
+
+---.smallcode
+
+## Making data tidy - gather()
+
+### `gather(data = , key = session, value = RT )`
+
+
+<img class=center
+  src=assets/img/session_2_gather.png width = 800px>
 
 ---.smallcode
 
@@ -872,104 +900,768 @@ gapminder_2 %>%
   spread(key=var_type, value=variable_value)
 ```
 
----.smallcode
-### Making data tidy - joining tibbles
+--- .smallcode &twocol_l
+
+## Making data tidy - joining datasets
+
+*** =left
 
 ```{r, echo=FALSE}
-gapminder_4_1[1:2,]
-```
-```{r, echo=FALSE}
-gapminder_4_2[1:2,]
+gapminder_4_1[1:5,]
 ```
 
----.smallcode
-
-### Making data tidy - joining tibbles
+*** =right
 
 ```{r, echo=FALSE}
-tibble(subject=c("S001", "S001", "S002", "S002"), 
-       session=c("session1", "session2","session1", "session2"),  RT=c(1.45, 1.23, 1.74, 1.85))
-```
-```{r, echo=FALSE}
-tibble(subject=c("S001", "S001", "S002", "S002"), 
-       session=c("session1", "session2","session1", "session2"),  hitrate=c(.65, .73, .71, .68))
+gapminder_4_2[1:5,]
 ```
 
+--- .smallcode &twocol_l
 
----.smallcode
-### Making data tidy - joining datasets
-
-```{r, echo=FALSE}
-gapminder_4_1 %>% 
-  gather(key=year, value=lifeExp,-country) %>%
-  head()
-```
-```{r, echo=FALSE}
-gapminder_4_2 %>% 
-  gather(key=year, value=gdpPercap, -country) %>%
-  head()
-```
-
-
---- 
-
-## Tidy data Joining datasets
+## Making data tidy - joining datasets
 
 <img class=center
-  src=assets/img/session_2_join-setup.png width=300px>
+  src=assets/img/session_2_join-setup.png width=150>
+  
+*** =left
+
+```{r, echo=FALSE}
+data_1 <- tibble(subject=c("S001", "S002", "S003"), 
+         RT=c(1.45, 1.23, 1.74)) 
+```
+
+```{r, echo=FALSE}
+data_1
+```
+
+*** =right
+
+```{r, echo=FALSE}
+data_2 <- tibble(subject=c("S001", "S002", "S004"), 
+         hitrate=c(.65, .73, .71)) 
+```
+
+```{r, echo=FALSE}
+data_2
+```
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
 
 
 --- .smallcode &twocol_l
 
-## Tidy data Joining datasets
-
-*** =left
-### Inner join 
+## Making data tidy - inner_join()
 
 <img class=center
   src=assets/img/session_2_join-inner.png width=300px>
+  
+*** =left
+
+```{r, echo=FALSE}
+data_1
+```
+
+
+
+```{r, echo=FALSE}
+data_2
+```
+
+---.smallcode &twocol_l
+
+## Making data tidy - inner_join()
+
+<img class=center
+  src=assets/img/session_2_join-inner.png width=300px>
+  
+
+---.smallcode &twocol_l
+
+## Making data tidy - inner_join()
+
+<img class=center
+  src=assets/img/session_2_join-inner.png width=300px>
+  
+*** =left
+
+```{r, echo=FALSE}
+data_1
+```
+
+
+
+```{r, echo=FALSE}
+data_2
+```
 
 *** =right
-### Outer join
-<img class=center
-  src=assets/img/session_2_join-outer.png width=300px>
+
+```{r}
+inner_join(data_1, data_2, by="subject")
+```
+
 
 *** =fullwidth
 
-<br>
-  Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - left_join()
+
+<img class=center
+  src=assets/img/session_2_join_left_outer.png width=300px>
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - left_join()
+
+<img class=center
+  src=assets/img/session_2_join_left_outer.png width=300px>
+
+*** =left
+
+```{r, echo=FALSE}
+data_1
+```
+
+
+```{r, echo=FALSE}
+data_2
+```
+
+*** =right
+
+```{r}
+left_join(data_1, data_2, by="subject")
+```
+
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - right_join()
+
+<img class=center
+  src=assets/img/session_2_join_right_outer.png width=300px>
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - right_join()
+
+<img class=center
+  src=assets/img/session_2_join_right_outer.png width=300px>
+
+*** =left
+
+```{r, echo=FALSE}
+data_1
+```
+
+
+```{r, echo=FALSE}
+data_2
+```
+
+*** =right
+
+```{r}
+right_join(data_1, data_2, by="subject")
+```
+
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - full_join()
+
+<img class=center
+  src=assets/img/session_2_join_full_outer.png width=300px>
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - full_join()
+
+<img class=center
+  src=assets/img/session_2_join_full_outer.png width=300px>
+
+*** =left
+
+```{r, echo=FALSE}
+data_1
+```
+
+
+```{r, echo=FALSE}
+data_2
+```
+
+*** =right
+
+```{r}
+full_join(data_1, data_2, by="subject")
+```
+
+
+*** =fullwidth
+
+Source: **H. Wickham** - [*R* for data science](http://r4ds.had.co.nz/vectors.html) - [CC license](https://creativecommons.org/licenses/by-nc-nd/3.0/us/)
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - Challenge 
+### Join our two datasets into one !
+
+*** =left
+```{r, echo=FALSE}
+gapminder_4_1 
+```
+
+*** =right
+```{r, echo=FALSE}
+gapminder_4_2 
+```
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - Challenge 
+### Join our two datasets into one !
+
+*** =left
+```{r}
+gapminder_4_1 %>% 
+  gather(key=year, value=lifeExp,-country) -> 
+  gapminder_4_1_temp 
+```
+
+```{r, echo=FALSE}
+gapminder_4_1_temp 
+```
+
+*** =right
+
+```{r}
+gapminder_4_2 %>% 
+  gather(key=year, value=lifeExp,-country) -> 
+  gapminder_4_2_temp
+```
+
+
+```{r, echo=FALSE}
+gapminder_4_2_temp
+```
+
+
+---.smallcode &twocol_l
+
+## Making data tidy - Challenge 
+### Join our two datasets into one !
+
+```{r, eval=FALSE}
+inner_join(gapminder_4_1_temp, gapminder_4_2_temp, by=c("country", "year")) 
+```
+```{r, echo=FALSE}
+inner_join(gapminder_4_1_temp, gapminder_4_2_temp, by=c("country", "year")) %>% head()
+```
+
+*** =left
+
+```{r, echo=FALSE}
+gapminder_4_1_temp 
+```
+
+*** =right
+
+```{r, echo=FALSE}
+gapminder_4_2_temp
+```
+
+---
+
+## Tidy data
+
+### Be able to identify if a dataset is tidy
+
+### Be able to use tidyverse functions to tidy a dataset
+
+  * `gather()`
+  * `spread()`
+  * `separate()`
+  * `inner_join()` and friends
+
+---
+
+## Using tidy data with ggplot
+
+### Be able to use *geoms*
+### Be able to use *aesthetics*
+### Be able to use facetting
+### Be able to modify a plot to improve visualization
+
+
+---
+
+## Using ggplot - a cheatsheet 
+
+
+<img class=center
+  src=assets/img/session_2_ggplot.png width=700px>
+
+
+---.smallcode &twocol_l
+
+## Geoms we have seen already
+
+*** =left
+### `geom_boxplot()`
+
+```{r, fig.width=12,fig.height=10, fig.align="center",out.width="400px"}
+ggplot(data=iris, aes(x=Species, y=Petal.Length)) +
+  geom_boxplot() +
+  theme_light()
+```
+
+*** =right
+### `geom_point()`
+```{r, fig.width=12,fig.height=10, fig.align="center",out.width="400px"}
+ggplot(iris, aes(x=Petal.Length, y=Sepal.Width)) + 
+  geom_point() +
+  theme_gray()
+```
+
+------.smallcode
+
+## ggplot challenges: make this plot !!
+
+```{r, fig.width=12,fig.height=10, fig.align="center",out.width="500px", echo = FALSE}
+ggplot(gapminder, aes(x=year, lifeExp)) + 
+  geom_point()
+```
+
+------.smallcode
+
+## ggplot challenges: make this plot !!
+
+```{r, fig.width=12,fig.height=10, fig.align="center",out.width="500px"}
+ggplot(gapminder, aes(x=year, lifeExp)) + 
+  geom_point()
+```
+
+------.smallcode
+
+## ggplot challenge: add color !!
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", echo = FALSE}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_point()
+```
+
+------.smallcode
+
+## ggplot challenge: add color !!
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_point()
+```
 
 ---.smallcode
 
-### Making data tidy - joining datasets
-```{r}
-gapminder_4_1 %>% 
-  gather(key=year, value=lifeExp,-country) -> gapminder_4_1
+## ggplot: Jitter to reduce overplotting
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", echo = FALSE}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter()
 ```
 
-```{r, echo=FALSE}
-gapminder_4_1 %>% 
-  gather(key=year, value=lifeExp,-country) %>%
-  head()  
+---.smallcode
+
+## ggplot: Jitter to reduce overplotting
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter()
+```
+
+---.smallcode
+
+## ggplot: Jitter to reduce overplotting
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", echo = FALSE}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter(width = 0.7)
+```
+
+---.smallcode
+
+## ggplot: Jitter to reduce overplotting
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter(width = 0.7)
+```
+
+---.smallcode
+
+## ggplot: Modify the shape to improve visibility
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", echo = FALSE}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter(width = 1, shape = 1) + 
+  theme_bw()
+```
+
+---.smallcode
+
+## ggplot: Modify the shape to improve visibility
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(x=year, lifeExp, color=continent)) + 
+  geom_jitter(width = 1, shape = 1) + 
+  theme_bw()
 ```
 
 
-```{r}
-gapminder_4_2 %>% 
-  gather(key=year, value=gdpPercap,-country) -> gapminder_4_2
+---.smallcode
+
+## ggplot: Plot year as a factor
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", echo=FALSE}
+ggplot(gapminder, aes(as.factor(year), lifeExp, color=continent)) + 
+  geom_jitter(width = 0.3, shape = 1) + 
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot: Plot year as a factor
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(as.factor(year), lifeExp, color=continent)) + 
+  geom_jitter(width = 0.3, shape = 1) + 
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", eval = FALSE}
+ggplot(gapminder, aes(year, lifeExp, color=continent)) + 
+  geom_line() + 
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp, color=continent)) + 
+  geom_line() + 
+  theme_classic()
 ```
 
 
-```{r, echo=FALSE}
-gapminder_4_2 %>% 
-  gather(key=year, value=gdpPercap, -country) %>%
-  head()
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", eval =FALSE}
+ggplot(gapminder, aes(year, lifeExp, color=continent, group=country)) + 
+  geom_line() + 
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using `geom_line()` to connect points
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp, color=continent, group=country)) + 
+  geom_line() + 
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot: using facets - `facet_wrap()`
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", eval = FALSE}
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_wrap(~continent) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot: using facets - `facet_wrap()`
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_wrap(~continent) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using facets - `facet_grid()`
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_grid(.~continent) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using facets - `facet_grid()`
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px",echo=FALSE}
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : using facets - `facet_grid()`
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp,  group=country)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : Adding a new *aesthetic*
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px",echo=FALSE}
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : Adding a new *aesthetic*
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : Transforming values to imrove visualization
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=log(gdpPercap))) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  scale_color_gradient( )  +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : Transforming values to imrove visualization
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) + 
+  geom_line() + 
+  facet_grid(continent~.) +
+  scale_color_gradient( trans = 'log' )  +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : Transforming values to imrove visualization
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) + 
+  geom_line(lwd = 1 ) + 
+  facet_grid(continent~.) +
+  scale_color_gradient( trans = 'log',guide="colourbar",breaks=c(1000,10000, 100000) )  +
+  theme_classic()
+```
+
+---.smallcode
+
+## ggplot : Create the following plot
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", echo = FALSE}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point() + 
+  facet_grid(year~continent) +
+  theme_minimal()
+```
+
+---.smallcode
+
+## ggplot : Create the following plot
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point() + 
+  facet_grid(year~continent) +
+  theme_minimal()
+```
+
+---.smallcode
+
+## ggplot : Improve plot quality
+
+```{r,fig.width=15,fig.height=10, fig.align="center",out.width="600px", eval = FALSE}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  facet_grid(year~continent, scales = "free_x") +
+  theme_classic()
+```
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px", echo = FALSE}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point() + 
+  facet_grid(year~continent) +
+  theme_minimal()
+```
+
+---.smallcode
+
+## ggplot : Improve plot quality
+
+```{r,fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  facet_grid(year~continent, scales = "free_x") +
+  theme_minimal()
 ```
 
 
+---.smallcode
 
-```{r}
-inner_join(gapminder_4_1, gapminder_4_2, by=c("country", "year"))
+## ggplot : Improve plot quality
+
+```{r,fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  scale_x_log10() +
+  facet_grid(year~continent, scales = "free_x") +
+  theme_minimal()
 ```
 
+---.smallcode
+
+## ggplot : Improve plot quality
+
+```{r,fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) + 
+  geom_point(shape = 1) + 
+  scale_x_log10() +
+  facet_grid(year~continent) +
+  theme_minimal()
+```
+
+---.smallcode
+
+## ggplot : `filter()`, ggplot and piping
+
+```{r,fig.width=15,fig.height=9, fig.align="center",out.width="600px"}
+gapminder %>%
+  filter(continent != "Oceania") %>%
+  ggplot(aes(gdpPercap, lifeExp)) + 
+    geom_point(shape = 1) + 
+    scale_x_log10() +
+    facet_grid(year~continent) +
+    theme_minimal()
+```
+
+---
+
+## ggplot challenge: produce this plot
+
+```{r,fig.width=15,fig.height=10, fig.align="center",out.width="800px", echo = FALSE}
+gapminder %>%
+  filter(continent != "Oceania" & (year == 1992 | year == 1952)) %>%
+  ggplot(aes(continent, lifeExp)) + 
+    geom_boxplot(outlier.shape = NA) + 
+    geom_jitter(aes(color=country),alpha= 0.4, size = 4,  width=0.2, show.legend = FALSE) +
+    facet_grid(.~year, scales = "free_y") +
+    scale_color_manual(values = country_colors) +
+    theme_gray() 
+```
+
+---
+
+## ggplot challenge: produce this plot 
+
+```{r,fig.width=15,fig.height=10, fig.align="center",out.width="800px", echo = FALSE}
+gapminder %>%
+  gather(key=var_type, value = value, lifeExp:gdpPercap) %>%
+  filter(continent == "Americas" & var_type != "pop" ) %>%
+  ggplot(aes(year, value, color = country)) + 
+    geom_line(lwd = 2) +
+    facet_grid(var_type~., scales = "free_y") +
+    scale_color_manual(values = country_colors) +
+    theme_minimal()
+```
+
+---
+
+## ggplot challenge: produce this plot (for 2007)
+
+```{r,fig.width=15,fig.height=10, fig.align="center",out.width="800px", echo = FALSE}
+gapminder %>%
+  filter(continent == "Africa" & ( year == 2007) ) %>%
+  ggplot(aes(lifeExp, gdpPercap, color = country)) + 
+    scale_y_log10() +
+    geom_point(aes(size=pop)) + 
+    scale_color_manual(values = country_colors) +
+    theme_minimal()
+```
+
+---
+
+## Using tidy data with ggplot
+
+### Be able to use *geoms*
+* `geom_jitter()`
+* `geom_line()`
+
+### Be able to use *aesthetics* to convey meaning
+* color, size as a third dimension
+### Be able to use facetting
+* `facet_grid()`
+* `facet_wrap()`
+
+### Be able to modify a plot to improve visualization
+* transform axes or color scales
+* free or bind axes in facetted plots
 

@@ -42,7 +42,9 @@ The workshop is made up of 4 half-days.
 # Tidy Data
   * explain tidy data
   * Learn to create tidy data
-  * gather and spread
+  * gather() and spread()
+  * separate()
+  * piping()
   
 # Manipulate Data
   * select()
