@@ -48,7 +48,7 @@ The workshop is made up of 4 half-days.
   
 # Manipulate Data
   * select()
-    * negate arugument
+    * negate argument
   * filter()
   * arrange()
   * grpup_by()

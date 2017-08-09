@@ -1,5 +1,5 @@
 ---
-title       : Introduction to R Workshop 
+title       : Introduction to R for reproducible data visualization and analysis 
 subtitle    : Session 1
 author      : Muriel Lobier
 job         : 
@@ -21,15 +21,15 @@ pre {
 
 ### Workshop agenda
 
-* Scientific data analysis should: 
-  * be reproducible 
+Scientific data analysis should: 
+* be reproducible 
     * by me
     * by others (if given my code and data)
-  * follow rigorous statistical standards
-  * use open tools 
+* follow rigorous statistical standards
+* use open tools 
   
   
-* R is a great way to achieve this
+**R is a great way to achieve this**
 
 
 --- .class #id 

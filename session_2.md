@@ -1097,13 +1097,10 @@ to
 
 
 ```
-## # A tibble: 4 x 3
-##   subject measure_type result
-##     <chr>        <chr>  <dbl>
-## 1    S001           RT   1.45
-## 2    S001     hit_rate   0.71
-## 3    S002           RT   1.20
-## 4    S002     hit_rate   0.56
+## # A tibble: 1 x 5
+##   subject hitrate.session1 hitrate.session2 RT.session1 RT.session2
+## *   <chr>            <dbl>            <dbl>       <dbl>       <dbl>
+## 1    S001             0.74             0.85        1.45        1.23
 ```
 
 ```r
@@ -2268,7 +2265,7 @@ ggplot(data=iris, aes(x=Species, y=Petal.Length)) +
   theme_light()
 ```
 
-<img src="assets/fig/unnamed-chunk-130-1.png" title="plot of chunk unnamed-chunk-130" alt="plot of chunk unnamed-chunk-130" width="400px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-154-1.png" title="plot of chunk unnamed-chunk-154" alt="plot of chunk unnamed-chunk-154" width="400px" style="display: block; margin: auto;" />
 
 *** =right
 ### `geom_point()`
@@ -2279,13 +2276,13 @@ ggplot(iris, aes(x=Petal.Length, y=Sepal.Width)) +
   theme_gray()
 ```
 
-<img src="assets/fig/unnamed-chunk-131-1.png" title="plot of chunk unnamed-chunk-131" alt="plot of chunk unnamed-chunk-131" width="400px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-155-1.png" title="plot of chunk unnamed-chunk-155" alt="plot of chunk unnamed-chunk-155" width="400px" style="display: block; margin: auto;" />
 
 ------.smallcode
 
 ## ggplot challenges: make this plot !!
 
-<img src="assets/fig/unnamed-chunk-132-1.png" title="plot of chunk unnamed-chunk-132" alt="plot of chunk unnamed-chunk-132" width="500px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-156-1.png" title="plot of chunk unnamed-chunk-156" alt="plot of chunk unnamed-chunk-156" width="500px" style="display: block; margin: auto;" />
 
 ------.smallcode
 
@@ -2297,13 +2294,13 @@ ggplot(gapminder, aes(x=year, lifeExp)) +
   geom_point()
 ```
 
-<img src="assets/fig/unnamed-chunk-133-1.png" title="plot of chunk unnamed-chunk-133" alt="plot of chunk unnamed-chunk-133" width="500px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-157-1.png" title="plot of chunk unnamed-chunk-157" alt="plot of chunk unnamed-chunk-157" width="500px" style="display: block; margin: auto;" />
 
 ------.smallcode
 
 ## ggplot challenge: add color !!
 
-<img src="assets/fig/unnamed-chunk-134-1.png" title="plot of chunk unnamed-chunk-134" alt="plot of chunk unnamed-chunk-134" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-158-1.png" title="plot of chunk unnamed-chunk-158" alt="plot of chunk unnamed-chunk-158" width="600px" style="display: block; margin: auto;" />
 
 ------.smallcode
 
@@ -2315,13 +2312,13 @@ ggplot(gapminder, aes(x=year, lifeExp, color=continent)) +
   geom_point()
 ```
 
-<img src="assets/fig/unnamed-chunk-135-1.png" title="plot of chunk unnamed-chunk-135" alt="plot of chunk unnamed-chunk-135" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-159-1.png" title="plot of chunk unnamed-chunk-159" alt="plot of chunk unnamed-chunk-159" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
 ## ggplot: Jitter to reduce overplotting
 
-<img src="assets/fig/unnamed-chunk-136-1.png" title="plot of chunk unnamed-chunk-136" alt="plot of chunk unnamed-chunk-136" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-160-1.png" title="plot of chunk unnamed-chunk-160" alt="plot of chunk unnamed-chunk-160" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2333,13 +2330,13 @@ ggplot(gapminder, aes(x=year, lifeExp, color=continent)) +
   geom_jitter()
 ```
 
-<img src="assets/fig/unnamed-chunk-137-1.png" title="plot of chunk unnamed-chunk-137" alt="plot of chunk unnamed-chunk-137" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-161-1.png" title="plot of chunk unnamed-chunk-161" alt="plot of chunk unnamed-chunk-161" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
 ## ggplot: Jitter to reduce overplotting
 
-<img src="assets/fig/unnamed-chunk-138-1.png" title="plot of chunk unnamed-chunk-138" alt="plot of chunk unnamed-chunk-138" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-162-1.png" title="plot of chunk unnamed-chunk-162" alt="plot of chunk unnamed-chunk-162" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2351,13 +2348,13 @@ ggplot(gapminder, aes(x=year, lifeExp, color=continent)) +
   geom_jitter(width = 0.7)
 ```
 
-<img src="assets/fig/unnamed-chunk-139-1.png" title="plot of chunk unnamed-chunk-139" alt="plot of chunk unnamed-chunk-139" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-163-1.png" title="plot of chunk unnamed-chunk-163" alt="plot of chunk unnamed-chunk-163" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
 ## ggplot: Modify the shape to improve visibility
 
-<img src="assets/fig/unnamed-chunk-140-1.png" title="plot of chunk unnamed-chunk-140" alt="plot of chunk unnamed-chunk-140" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-164-1.png" title="plot of chunk unnamed-chunk-164" alt="plot of chunk unnamed-chunk-164" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2370,14 +2367,14 @@ ggplot(gapminder, aes(x=year, lifeExp, color=continent)) +
   theme_bw()
 ```
 
-<img src="assets/fig/unnamed-chunk-141-1.png" title="plot of chunk unnamed-chunk-141" alt="plot of chunk unnamed-chunk-141" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-165-1.png" title="plot of chunk unnamed-chunk-165" alt="plot of chunk unnamed-chunk-165" width="600px" style="display: block; margin: auto;" />
 
 
 ---.smallcode
 
 ## ggplot: Plot year as a factor
 
-<img src="assets/fig/unnamed-chunk-142-1.png" title="plot of chunk unnamed-chunk-142" alt="plot of chunk unnamed-chunk-142" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-166-1.png" title="plot of chunk unnamed-chunk-166" alt="plot of chunk unnamed-chunk-166" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2390,7 +2387,7 @@ ggplot(gapminder, aes(as.factor(year), lifeExp, color=continent)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-143-1.png" title="plot of chunk unnamed-chunk-143" alt="plot of chunk unnamed-chunk-143" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-167-1.png" title="plot of chunk unnamed-chunk-167" alt="plot of chunk unnamed-chunk-167" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2414,7 +2411,7 @@ ggplot(gapminder, aes(year, lifeExp, color=continent)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-145-1.png" title="plot of chunk unnamed-chunk-145" alt="plot of chunk unnamed-chunk-145" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-169-1.png" title="plot of chunk unnamed-chunk-169" alt="plot of chunk unnamed-chunk-169" width="600px" style="display: block; margin: auto;" />
 
 
 ---.smallcode
@@ -2439,7 +2436,7 @@ ggplot(gapminder, aes(year, lifeExp, color=continent, group=country)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-147-1.png" title="plot of chunk unnamed-chunk-147" alt="plot of chunk unnamed-chunk-147" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-171-1.png" title="plot of chunk unnamed-chunk-171" alt="plot of chunk unnamed-chunk-171" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2465,7 +2462,7 @@ ggplot(gapminder, aes(year, lifeExp,  group=country)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-149-1.png" title="plot of chunk unnamed-chunk-149" alt="plot of chunk unnamed-chunk-149" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-173-1.png" title="plot of chunk unnamed-chunk-173" alt="plot of chunk unnamed-chunk-173" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2479,13 +2476,13 @@ ggplot(gapminder, aes(year, lifeExp,  group=country)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-150-1.png" title="plot of chunk unnamed-chunk-150" alt="plot of chunk unnamed-chunk-150" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-174-1.png" title="plot of chunk unnamed-chunk-174" alt="plot of chunk unnamed-chunk-174" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
 ## ggplot : using facets - `facet_grid()`
 
-<img src="assets/fig/unnamed-chunk-151-1.png" title="plot of chunk unnamed-chunk-151" alt="plot of chunk unnamed-chunk-151" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-175-1.png" title="plot of chunk unnamed-chunk-175" alt="plot of chunk unnamed-chunk-175" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2499,13 +2496,13 @@ ggplot(gapminder, aes(year, lifeExp,  group=country)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-152-1.png" title="plot of chunk unnamed-chunk-152" alt="plot of chunk unnamed-chunk-152" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-176-1.png" title="plot of chunk unnamed-chunk-176" alt="plot of chunk unnamed-chunk-176" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
 ## ggplot : Adding a new *aesthetic*
 
-<img src="assets/fig/unnamed-chunk-153-1.png" title="plot of chunk unnamed-chunk-153" alt="plot of chunk unnamed-chunk-153" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-177-1.png" title="plot of chunk unnamed-chunk-177" alt="plot of chunk unnamed-chunk-177" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2519,7 +2516,7 @@ ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-154-1.png" title="plot of chunk unnamed-chunk-154" alt="plot of chunk unnamed-chunk-154" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-178-1.png" title="plot of chunk unnamed-chunk-178" alt="plot of chunk unnamed-chunk-178" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2534,7 +2531,7 @@ ggplot(gapminder, aes(year, lifeExp,  group=country, color=log(gdpPercap))) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-155-1.png" title="plot of chunk unnamed-chunk-155" alt="plot of chunk unnamed-chunk-155" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-179-1.png" title="plot of chunk unnamed-chunk-179" alt="plot of chunk unnamed-chunk-179" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2549,7 +2546,7 @@ ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-156-1.png" title="plot of chunk unnamed-chunk-156" alt="plot of chunk unnamed-chunk-156" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-180-1.png" title="plot of chunk unnamed-chunk-180" alt="plot of chunk unnamed-chunk-180" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2564,13 +2561,13 @@ ggplot(gapminder, aes(year, lifeExp,  group=country, color=gdpPercap)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-157-1.png" title="plot of chunk unnamed-chunk-157" alt="plot of chunk unnamed-chunk-157" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-181-1.png" title="plot of chunk unnamed-chunk-181" alt="plot of chunk unnamed-chunk-181" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
 ## ggplot : Create the following plot
 
-<img src="assets/fig/unnamed-chunk-158-1.png" title="plot of chunk unnamed-chunk-158" alt="plot of chunk unnamed-chunk-158" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-182-1.png" title="plot of chunk unnamed-chunk-182" alt="plot of chunk unnamed-chunk-182" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2584,7 +2581,7 @@ ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   theme_minimal()
 ```
 
-<img src="assets/fig/unnamed-chunk-159-1.png" title="plot of chunk unnamed-chunk-159" alt="plot of chunk unnamed-chunk-159" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-183-1.png" title="plot of chunk unnamed-chunk-183" alt="plot of chunk unnamed-chunk-183" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2598,7 +2595,7 @@ ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   theme_classic()
 ```
 
-<img src="assets/fig/unnamed-chunk-161-1.png" title="plot of chunk unnamed-chunk-161" alt="plot of chunk unnamed-chunk-161" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-185-1.png" title="plot of chunk unnamed-chunk-185" alt="plot of chunk unnamed-chunk-185" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2612,7 +2609,7 @@ ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   theme_minimal()
 ```
 
-<img src="assets/fig/unnamed-chunk-162-1.png" title="plot of chunk unnamed-chunk-162" alt="plot of chunk unnamed-chunk-162" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-186-1.png" title="plot of chunk unnamed-chunk-186" alt="plot of chunk unnamed-chunk-186" width="600px" style="display: block; margin: auto;" />
 
 
 ---.smallcode
@@ -2628,7 +2625,7 @@ ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   theme_minimal()
 ```
 
-<img src="assets/fig/unnamed-chunk-163-1.png" title="plot of chunk unnamed-chunk-163" alt="plot of chunk unnamed-chunk-163" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-187-1.png" title="plot of chunk unnamed-chunk-187" alt="plot of chunk unnamed-chunk-187" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2643,7 +2640,7 @@ ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   theme_minimal()
 ```
 
-<img src="assets/fig/unnamed-chunk-164-1.png" title="plot of chunk unnamed-chunk-164" alt="plot of chunk unnamed-chunk-164" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-188-1.png" title="plot of chunk unnamed-chunk-188" alt="plot of chunk unnamed-chunk-188" width="600px" style="display: block; margin: auto;" />
 
 ---.smallcode
 
@@ -2660,25 +2657,25 @@ gapminder %>%
     theme_minimal()
 ```
 
-<img src="assets/fig/unnamed-chunk-165-1.png" title="plot of chunk unnamed-chunk-165" alt="plot of chunk unnamed-chunk-165" width="600px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-189-1.png" title="plot of chunk unnamed-chunk-189" alt="plot of chunk unnamed-chunk-189" width="600px" style="display: block; margin: auto;" />
 
 ---
 
 ## ggplot challenge: produce this plot
 
-<img src="assets/fig/unnamed-chunk-166-1.png" title="plot of chunk unnamed-chunk-166" alt="plot of chunk unnamed-chunk-166" width="800px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-190-1.png" title="plot of chunk unnamed-chunk-190" alt="plot of chunk unnamed-chunk-190" width="800px" style="display: block; margin: auto;" />
 
 ---
 
 ## ggplot challenge: produce this plot 
 
-<img src="assets/fig/unnamed-chunk-167-1.png" title="plot of chunk unnamed-chunk-167" alt="plot of chunk unnamed-chunk-167" width="800px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-191-1.png" title="plot of chunk unnamed-chunk-191" alt="plot of chunk unnamed-chunk-191" width="800px" style="display: block; margin: auto;" />
 
 ---
 
 ## ggplot challenge: produce this plot (for 2007)
 
-<img src="assets/fig/unnamed-chunk-168-1.png" title="plot of chunk unnamed-chunk-168" alt="plot of chunk unnamed-chunk-168" width="800px" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-192-1.png" title="plot of chunk unnamed-chunk-192" alt="plot of chunk unnamed-chunk-192" width="800px" style="display: block; margin: auto;" />
 
 ---
 

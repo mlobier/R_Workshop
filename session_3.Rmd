@@ -1,0 +1,1289 @@
+---
+title       : Introduction to R for reproducible data visualization and analysis 
+subtitle    : Session 3
+author      : Muriel Lobier
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax, quiz, bootstrap]           # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+<style>
+pre {
+  margin-top: -15px;
+}
+</style>
+
+<style>
+.large {
+   font-size: 150%;
+}
+</style>
+
+<style>
+slide.smallcode pre {
+  font-size: 16px;
+}
+</style>
+
+---
+
+## Session 3 - Using R to run reproducible data analysis
+
+### Project structure
+
+### Importing data
+
+### Visualizing data
+
+### Reporting results
+
+### Making informative plots with ggplot
+
+---
+
+## Open Data from a Posner experiment
+
+### Paper [HERE](https://link.springer.com/article/10.3758%2Fs13428-017-0935-1) 
+
+### Data [HERE](https://osf.io/cwzds/)
+
+
+<img class=center
+  src=assets/img/session_3_paper_header.png width=800px>
+
+
+---
+
+## Step 1: create a project folder structure
+
+Project directories should be organized consistently and methodically. My preferred structure would be:
+
+### project_name/ (root directory)
+* name_of_analysis.Rmd (Rnotebook with main analysis code)
+* R/ (project-specific R function files)
+* data/ (original data - READ ONLY)
+* figure/ (figures automatically saved when running code)
+* figure_output (figures for use elsewhere)
+* output/ (processed or simulated data, other non-final output )
+
+**Navigate to R_Workshop_Exercises**
+
+
+---
+
+## Step 2: Open our R Notebook for our analysis
+
+ 
+
+
+---.smallcode
+
+## Importing data
+
+### Use `read_csv()` to import the data
+
+```{r, eval =  FALSE}
+raw_data<-read_csv("data/study3_allsubjects_Posner.csv")
+```
+
+---.smallcode
+
+## Importing data
+
+### Use `read_csv()` to import the data
+
+```{r}
+raw_data<-read_csv("data/study3_allsubjects_Posner.csv")
+```
+
+
+---.smallcode
+
+## Importing data
+
+### Use `read_csv()` to import the data
+
+Modify the code to not assign the first row to column names
+
+```{r}
+raw_data<-read_csv("data/study3_allsubjects_Posner.csv", col_names = FALSE)
+```
+
+---.smallcode
+
+## Preprocess data: first glimpse of the dataset
+
+### Quick overview: variable number and type, number of rows ....
+
+
+---.smallcode
+
+## Preprocess data: first glimpse of the dataset
+
+### Quick overview: variable number and type, number of rows ....
+
+
+```{r}
+raw_data
+```
+
+---.smallcode
+
+## Preprocess data: assign column names
+
+### Use the `names()` command to assign names to variables
+1. block
+2. trial_number
+3. SOA (delay between cue onset and target) in seconds
+4. condition (0 = valid,  2=invalid)
+5. response  (correct (1) or incorrect (0) )
+6. RT: Reaction time (seconds)
+7. Participant ID
+
+---.smallcode
+
+## Preprocess data: assign column names
+
+### Use the `names()` command to assign names to variables
+1. block
+2. trial_number
+3. SOA (delay between cue onset and target) in seconds
+4. condition (0 = valid,  2=invalid)
+5. response  (correct (1) or incorrect (0) )
+6. RT: Reaction time (seconds)
+7. Participant ID
+
+```{r}
+names(raw_data)<-c("block", "trial_number", "SOA", "condition", "response", "RT", "part_nb", "session_nb" )
+```
+
+---.smallcode
+
+## Preprocess data: Modify variables ?
+
+
+---.smallcode
+
+## Preprocess data: Modify variables ?
+```{r}
+glimpse(raw_data)
+```
+
+
+---.smallcode
+
+## Preprocess data: Modify variables ?
+```{r}
+summary(raw_data)
+```
+
+---.smallcode
+
+## Preprocess data: Modify variables ?
+
+Convert block and session to factors
+```{r, eval = FALSE}
+raw_data$block<- as.factor()
+```
+
+---.smallcode
+
+## Preprocess data: Modify variables ?
+
+Convert block and session to factors
+```{r}
+raw_data$block<- as.factor(raw_data$block)
+raw_data$session_nb<- as.factor(raw_data$session_nb)
+```
+
+---.smallcode
+
+## Preprocess data: Modify variables ?
+
+Use `mutate()` and `if_else` to recode condition to descriptive values
+```{r}
+raw_data %>% 
+  mutate(condition_f = if_else(condition == 0, "valid", "invalid")) -> raw_data
+```
+
+
+---.smallcode
+
+## Check that participants were 'behaving well'
+
+Use `group_by()` and `summarise()`  to inspect individual hit-rates for each session.
+
+
+
+
+---.smallcode
+
+## `group_by()` and `summarise()`
+
+```{r, eval = FALSE}
+data %>%
+  group_by(session) %>%
+  summarise(count = n(), mean = mean(RT))
+```
+
+<img class=center
+  src=assets/img/session_3_group_by.png width=800px>
+
+---.smallcode
+
+## Check that participants were 'behaving well'
+
+Use `group_by()` and `summarise()`  to inspect individual hit-rates for each session. 
+
+```{r, eval=FALSE}
+raw_data %>%
+  group_by() %>%
+  summarise()
+```
+
+
+---.smallcode
+
+## Check that participants were 'behaving well'
+
+Use `group_by()` and `summarise()` to inspect individual hit-rates for each session. 
+
+```{r}
+raw_data %>%
+  group_by(part_nb, session_nb) %>%
+  summarise(hit_rate = mean(response))
+```
+
+---.smallcode
+
+## Check that participants were 'behaving well'
+
+Use `group_by()` and `summarise()`  to inspect individual hit-rates for each session. 
+
+A picture is worth a thousand tables, fill in the code to produce this plot:
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="500px", echo = FALSE, warning=FALSE}
+raw_data %>%
+  group_by(part_nb, session_nb) %>%
+  summarise(hit_rate = mean(response)) %>%
+  ggplot(aes(x = session_nb, y = hit_rate)) + 
+  geom_dotplot(binaxis='y', stackdir = "center")
+```
+
+---.smallcode
+
+## Check that participants were 'behaving well'
+
+Use `group_by()` and `summarise()`  to inspect individual hit-rates for each session. 
+
+A picture is worth a thousand tables
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="400px", message= FALSE}
+raw_data %>%
+  group_by(part_nb, session_nb) %>%
+  summarise(hit_rate = mean(response)) %>%
+  ggplot(aes(x = session_nb, y = hit_rate)) + 
+  geom_dotplot(binaxis='y', stackdir = "center")
+```
+
+
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+* Write the ggplot code to produce this plot:
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="700px", echo = FALSE}
+ggplot(raw_data, aes(y = RT, x = condition_f) ) + 
+  geom_boxplot(na.rm = TRUE) +
+  facet_wrap(~part_nb)
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="600px"}
+ggplot(raw_data, aes(y = RT, x = condition_f) ) + 
+  geom_boxplot(na.rm = TRUE) +
+  facet_wrap(~part_nb)
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Use the filter funtion to remove the outlier data point of subject 23
+
+
+```{r, eval = FALSE}
+raw_data %>% 
+  filter() -> raw_data
+```
+
+---.smallcode
+
+## Use the filter funtion to remove the outlier
+
+```{r}
+raw_data %>% 
+  filter(RT < 5) -> raw_data
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### What additional criteria could /should we apply ??
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px", echo = FALSE}
+ggplot(raw_data, aes(y = RT, x = condition_f) ) + 
+  geom_boxplot(na.rm = TRUE) +
+  facet_wrap(~part_nb)
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Criteria applied by the original study:
+* RTs less than 100 ms (no one is that fast)
+* RTs above median RT +  3 times the median absolute deviation
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Criteria applied by the original study:
+
+* RTs less than 100 ms (Only The Flash is that fast)
+
+### Use `summarise`,  `n()` and `group_by` to count the `nb_outliers` for each participant.
+
+```{r, eval = FALSE}
+raw_data %>%
+  filter( ) %>%
+  group_by() %>%
+  summarise()
+```
+
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Criteria applied by the original study:
+
+* RTs less than 100 ms (Only The Flash is that fast)
+
+### Use `summarise`,  `n()` and `group_by` to count the `nb_outliers` for each participant.
+
+```{r, eval = FALSE}
+raw_data %>%
+  filter( RT < .1) %>%
+  group_by(part_nb) %>%
+  summarise(nb_outliers = n())
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Criteria applied by the original study:
+
+* RTs less than 100 ms (Only The Flash is that fast)
+
+### Now add ggplot code using  `geom_col()` to produce this plot:
+
+```{r, fig.width=15,fig.height=7, fig.align="center",out.width="500px", eval=FALSE}
+raw_data %>%
+  filter( RT < .1) %>%
+  group_by(part_nb) %>%
+  summarise(nb_outliers = n()) %>%
+  ggplot() +
+  geom_col()
+```
+
+```{r, fig.width=15,fig.height=7, fig.align="center",out.width="500px", echo=FALSE}
+raw_data %>%
+  filter( RT < .1) %>%
+  group_by(part_nb) %>%
+  summarise(nb_outliers = n()) %>%
+  ggplot(aes(x=part_nb, y=nb_outliers)) +
+  geom_col()
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Criteria applied by the original study:
+
+* RTs below 100 ms (Only The Flash is that fast)
+
+### Now add ggplot code using  `geom_col()` to produce this plot:
+
+
+```{r, fig.width=15,fig.height=7, fig.align="center",out.width="500px"}
+raw_data %>%
+  filter( RT < .1) %>%
+  group_by(part_nb) %>%
+  summarise(nb_outliers = n()) %>%
+  ggplot(aes(x=part_nb, y=nb_outliers)) +
+  geom_col()
+```
+
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Criteria applied by the original study:
+* RTs above median RT +  3 times the median absolute deviation 
+
+### Use the `mad()` function to produce the same figure for this criteria 
+
+```{r,  eval = FALSE}
+raw_data %>%
+  filter( ) %>%
+  group_by(part_nb) %>%
+  summarise(???) %>%
+  ggplot(aes(x=part_nb, y=nb_outliers)) +
+  geom_col()
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Criteria applied by the original study:
+* RTs above median RT +  3 times the median absolute deviation 
+
+### Use the `mad()` function to produce the same figure for this criteria 
+
+
+```{r, fig.width=15,fig.height=7, fig.align="center",out.width="500px"}
+raw_data %>%
+  group_by(part_nb) %>%
+  filter( RT > median(RT) + 3*mad(RT)) %>%
+  summarise(nb_outliers = n()) %>%
+  ggplot(aes(x=part_nb, y=nb_outliers)) +
+  geom_col()
+```
+
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Put it all together to remove outliers
+* RTs below 100 ms (no one is that fast)
+* RTs above median+ 3 times the median absolute deviation 
+
+Fill in the code to remove all trials with outlier RTs
+
+```{r, eval = FALSE}
+raw_data %>%
+  group_by(part_nb) %>%
+  filter( ) -> preproc_data
+  
+```
+
+---.smallcode
+
+## Explore individual data for possible outliers
+
+### Put it all together to remove outliers
+* RTs over median+ 3 times the median absolute deviation 
+* RTs less than 100 ms (only The Flash is that fast)
+
+```{r}
+raw_data %>%
+  group_by(part_nb) %>%
+  filter((RT > 0.1 & (RT < median(RT) + 3*mad(RT)))) -> preproc_data
+  
+```
+
+---.smallcode
+
+## Visualize preprocessed individual data
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px", eval = FALSE}
+ggplot( ) + 
+  geom_boxplot() +
+  facet_wrap()
+```
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px", echo = FALSE}
+ggplot(preproc_data, aes(y = RT, x = condition_f) ) + 
+  geom_boxplot(na.rm = TRUE) +
+  facet_wrap(~part_nb)
+```
+
+---.smallcode
+
+## Visualize preprocessed individual data
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px"}
+ggplot(preproc_data, aes(y = RT, x = condition_f) ) + 
+  geom_boxplot(na.rm = TRUE) +
+  facet_wrap(~part_nb)
+```
+
+
+
+---.smallcode
+
+## Compute individual performance 
+
+### Dependent/measured  variable: 
+* RT 
+
+### Independent/manipulated variables: 
+* condition_f 
+* session_nb
+
+---.smallcode
+
+## Compute individual performance 
+
+### Dependent/measured  variable: 
+* RT 
+
+### Independent/manipulated variables: 
+* condition_f 
+* session_nb
+
+### Compute individual mean RTs for each condition and session  
+```{r, eval = FALSE}
+preproc_data %>%
+  group_by() %>%
+  summarise() -> indiv_data
+```
+
+---.smallcode
+
+## Evaluate individual performance 
+
+### Dependent/measured  variable: 
+* RT 
+
+### Independent/manipulated variables: 
+* condition_f 
+* session_nb
+
+### Compute individual mean RTs for each condition and session  
+```{r}
+preproc_data %>%
+  group_by(part_nb, condition_f, session_nb) %>%
+  summarise(RT_mean = mean(RT, na.rm=TRUE) , 
+            RT_sd = sd(RT, na.rm=TRUE)) -> indiv_data
+```
+
+---.smallcode
+
+## The classical plot 
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px", echo = FALSE}
+indiv_data %>%
+  group_by(session_nb,condition_f) %>% 
+  summarise(RT = mean(RT_mean), 
+            se = (sd(RT_mean)/sqrt(n()))) %>%
+  ggplot(aes(x = condition_f, y = RT, color = session_nb)) +
+  geom_line(aes(group = session_nb), position = position_dodge(0.1)) +
+  geom_linerange(aes(ymin= RT - se, ymax = RT + se), position = position_dodge(0.1)) +
+  geom_point(position = position_dodge(0.1), size = 4) + 
+  theme_classic() +
+  theme(text = element_text(size = 20))
+  
+```
+
+
+---.smallcode
+
+## The classical plot - DON'T DO IT
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px", echo = FALSE}
+indiv_data %>%
+  group_by(session_nb,condition_f) %>% 
+  summarise(RT = mean(RT_mean), 
+            se = (sd(RT_mean)/sqrt(n()))) %>%
+  ggplot(aes(x = condition_f, y = RT, color = session_nb)) +
+  geom_line(aes(group = session_nb), position = position_dodge(0.1)) +
+  geom_linerange(aes(ymin= RT - se, ymax = RT + se), position = position_dodge(0.1)) +
+  geom_point(position = position_dodge(0.1), size = 4) + 
+  theme_classic() +
+  theme(text = element_text(size = 20))
+  
+```
+
+
+---
+
+## Informative plotting of data
+
+<img class=center
+  src=assets/img/session_3_between_figures.png width=650px>
+
+
+[Weissgerber TL, Milic NM, Winham SJ, Garovic VD (2015) Beyond Bar and Line Graphs: Time for a New Data Presentation Paradigm.](http://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002128)
+
+---
+
+## Informative plotting of data
+
+<img class=center
+  src=assets/img/session_3_group_comps.png width=450px>
+
+
+[Rousselet, G. A., Foxe, J. J. and Bolam, J. P. (2016), A few simple steps to improve the description of group results in neuroscience. Eur J Neurosci, 44: 2647-2651.](http://onlinelibrary.wiley.com/doi/10.1111/ejn.13400/full)
+
+---.smallcode &twocol_l
+
+## Plotting a 2 x 2 within participant design: your choice !
+
+*** =left
+
+### Option 1: visualize the direction of individual differences
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="400px", echo = FALSE, message=FALSE}
+ggplot(indiv_data, aes(x = condition_f, y = RT_mean) ) + 
+  geom_boxplot(na.rm = TRUE, fill = "light blue", outlier.color = "red", color = "blue") +
+  geom_point(shape = 1, size = 2, color = "blue") +
+  geom_line(aes(group = part_nb),linetype = 2 ) +
+  theme_bw() + 
+  facet_wrap(~session_nb, labeller = label_both) +
+  theme(text = element_text(size = 24))
+```
+
+*** =right
+
+### Option 2: Plot within-subject RT differences between invalid and valid trials
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="450px", echo = FALSE, message = FALSE}
+indiv_data %>% select(-RT_sd) %>%
+  spread(key = condition_f, value = RT_mean) %>%
+  mutate(rt_diff = invalid-valid) %>%
+  ggplot(aes(x=session_nb, y=rt_diff)) +
+    geom_hline(yintercept = 0, color = "orange", size = 2) +
+    geom_violin(fill = "red", alpha = 0.1, color = NA) + 
+    geom_boxplot(color="red", outlier.shape = NA, width = .3, alpha = 0.5, size = 1) + 
+    geom_dotplot(binaxis ="y", stackdir="center", fill="red", alpha = 0.3) +
+    theme_bw() +
+    theme(text = element_text(size = 30)) +
+    ylab("RT_invalid - RT_valid") 
+  
+```
+
+---.smallcode
+## Exporting your plot
+
+Use `ggsave()` to export your plot to a variety of formats:
+* "png", "eps", "ps", "pdf", "jpeg", "tiff", "png", "bmp", "svg"
+
+* Arguments
+```{r, eval= FALSE}
+ggsave(filename, plot = last_plot(), device = NULL, path = NULL,
+  scale = 1, width = NA, height = NA, units = c("in", "cm", "mm"),
+  dpi = 300, limitsize = TRUE, ...)
+```
+
+* Examples
+```{r, eval = FALSE}
+ggsave("figure_ouput/myfig.pdf")
+ggsave("figure_ouput/myfig.png")
+ggsave("figure_ouput/myfig.pdf", width = 8.7, height = 10, units = "cm")
+```
+
+
+
+
+---.smallcode
+
+## Next analysis step : Inferential statistics !
+
+### Our hypotheses:
+* RTs are faster for valid than invalid trials
+* This difference in RTs varies across sessions
+
+---.smallcode
+
+## Next analysis step : Inferential statistics !
+
+### Our hypotheses:
+* RTs are faster for valid than invalid trials
+* This difference in RTs varies across sessions
+
+### One possible statistical test: the 2 X 2 Repeated Measures ANOVA
+* Factor 1: condition_f 
+* Factor 2: session_nb
+
+---.smallcode
+
+## Next analysis step : Inferential statistics !
+
+### Our hypotheses:
+* RTs are faster for valid than invalid trials
+* This difference in RTs varies across sessions
+
+### One possible statistical test: the 2 X 2 Repeated Measures ANOVA
+* Factor 1: condition_f 
+* Factor 2: session_nb
+
+--- .smallcode
+
+### A package for ANOVAs made easy: ez
+
+```{r, warning = FALSE}
+library(ez)
+```
+
+```{r, eval = FALSE}
+anova_model <- ezANOVA(data = indiv_data,
+                       dv = RT_mean,
+                       wid = part_nb,
+                       within = .(condition_f, session_nb))
+```
+
+--- .smallcode
+
+### Reproducible ANOVA analysis
+
+```{r}
+anova_model <- ezANOVA(data = indiv_data,
+                       dv = RT_mean,
+                       wid = part_nb,
+                       within = .(condition_f, session_nb))
+```
+
+```{r}
+anova_model
+```
+
+Add the ANOVA analysis to your analysis file as well as a paragraph explaining the results.
+
+--- .smallcode
+
+### Reproducible data analysis
+
+Your reproducible data analysis file is now ready and complete. 
+
+Press the *Knit* button to process your file into an html document.
+
+Well done !!!
+
+
+
+---
+
+## Informative plotting of data - independent groups
+
+<img class=center
+  src=assets/img/session_3_group_comps.png width=450px>
+
+
+[Rousselet, G. A., Foxe, J. J. and Bolam, J. P. (2016), A few simple steps to improve the description of group results in neuroscience. Eur J Neurosci, 44: 2647-2651.](http://onlinelibrary.wiley.com/doi/10.1111/ejn.13400/full)
+
+---
+## Informative plotting of data - independent groups
+
+Create a new .Rmd file in R/R_Workshop/Exercises
+
+Use this .Rmd file and R chuncks to keep a trace of all you code !
+
+First we will *modify* our data to simulate independent group data
+
+---.smallcode
+
+## Plotting options for fully independent groups
+Use `rename()`and `mutate`  to change 
+* condition_f to group : 
+  * "valid" to "CTRL"
+  * "invalid" to "DYS"
+* session_nb to age
+  * "1" to "young"
+  * "2" to "old"
+
+```{r, eval = FALSE}
+indiv_data %>%
+  ungroup() %>%
+  select(-part_nb) %>%
+  rename()%>% 
+  mutate() -> indep_data
+  
+```
+
+
+---.smallcode
+
+## Plotting options for fully independent groups
+Use `rename()`and `mutate`  to change 
+* condition_f to group : 
+  * "valid" to "CTRL"
+  * "invalid" to "DYS"
+* session_nb to age
+  * "1" to "young"
+  * "2" to "old"
+
+```{r}
+indiv_data %>%
+  ungroup() %>%
+  select(-part_nb) %>%
+  rename(group = condition_f, age = session_nb)%>% 
+  mutate(group = ifelse( group == "valid", "CTRL", "DYS"),
+         age = ifelse(age == 1, "young" , "old")) -> indep_data
+  
+```
+
+
+---.smallcode &twocol_l
+
+## Plotting options for fully independent groups: your choice !
+
+*** =left
+
+### Option 1: boxplot and jittered individua data
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="450px", echo = FALSE, message=FALSE}
+ggplot(indep_data, aes(x = age, y = RT_mean, fill= group) ) + 
+  geom_boxplot(na.rm = TRUE, width = 0.4, outlier.shape = NA, alpha = 0.7) +
+   geom_point(pch = 21, position = position_jitterdodge(jitter.width = 0.1, dodge.width = 0.4), size = 2)+
+  theme_bw() +
+  ggtitle("Effect of reading ability and age on reaction times") +
+  xlab("Session") + ylab("Mean reaction times") + 
+  theme(text=element_text(size = 28)) +
+   scale_fill_discrete(name="Group",
+                          breaks=c("CTRL", "DYS"),
+                         labels=c("Normal readers", "Dyslexic readers"))
+```
+
+*** =right
+
+### Option 2: Pirate plots : yarrr !!!
+
+* load the yarrr library
+```{r}
+library(yarrr)
+```
+
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="450px", echo = FALSE, message = FALSE}
+
+
+pirateplot(formula = RT_mean ~ group + age,
+           data = indep_data,
+           theme = 1,
+           pal = "xmen",
+           point.pch = 16,
+           gl.col = gray(.8),
+           main = "Effect of cue validity and session on reaction times")
+  
+```
+
+
+---.smallcode
+
+## Plotting options for fully independent groups
+
+Option 1: boxplot and jittered individua data
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="450px"}
+ggplot(indep_data, aes(x = age, y = RT_mean, fill= group) ) + 
+  geom_boxplot(na.rm = TRUE, width = 0.4, outlier.shape = NA, alpha = 0.7) +
+   geom_point(pch = 21, position = position_jitterdodge(jitter.width = 0.1, dodge.width = 0.4), size = 2)+
+  theme_bw() +
+  ggtitle("Effect of reading ability and age on reaction times") +
+  xlab("Session") + ylab("Mean reaction times") + 
+  theme(text=element_text(size = 28))
+   scale_fill_discrete(name="Group",
+                          breaks=c("CTRL", "DYS"),
+                         labels=c("Normal readers", "Dyslexic readers"))
+```
+
+---.smallcode
+
+## Plotting options for fully independent groups
+
+Option 2: Pirate plots : yarrr !!!
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="450px", message = FALSE}
+
+
+pirateplot(formula = RT_mean ~ group + age,
+           data = indep_data,
+           theme = 1,
+           pal = "xmen",
+           point.pch = 16,
+           gl.col = gray(.8),
+           main = "Effect of cue validity and session on reaction times")
+  
+```
+
+
+--- Create informative ERP plots
+
+## Plotting ERP data
+
+<img class=center
+  src=assets/img/session_3_ERP_plots.png width=520px>
+
+
+[Rousselet, G. A., Foxe, J. J. and Bolam, J. P. (2016), A few simple steps to improve the description of group results in neuroscience. Eur J Neurosci, 44: 2647-2651.](http://onlinelibrary.wiley.com/doi/10.1111/ejn.13400/full)
+
+
+---.smallcode
+
+## Create informative ERP plots
+
+### Load the data from the ERP library
+
+```{r}
+library(ERP)
+data(erpcz)
+erp_data<-as.tibble(erpcz)
+```
+
+### Wrangle the data to get the following tibble
+
+```{r}
+erp_data %>%
+  gather(key = x_time, value=amplitude, -Subject, -Instruction) %>%
+  separate(col = x_time, into=c("x","time"), sep="X") %>%
+  mutate(time = as.numeric(time)) ->erp_data
+```
+
+
+---.smallcode
+
+## Create informative ERP plots
+
+### Wrangle the data to get the following tibble
+
+```{r, eval = FALSE}
+erp_data %>%
+  gather() %>%
+  separate() %>%
+  mutate() ->erp_data
+```
+
+```{r, echo = FALSE}
+erp_data %>%
+  gather(key = x_time, value=amplitude, -Subject, -Instruction) %>%
+  separate(col = x_time, into=c("x","time"), sep="X") %>%
+  mutate(time = as.numeric(time)) ->erp_data
+erp_data
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+### Wrangle the data to get the following tibble
+
+```{r, eval = FALSE}
+erp_data %>%
+  gather(key = x_time, value=amplitude, -Subject, -Instruction) %>%
+  separate(col = x_time, into=c("x","time"), sep="X") %>%
+  mutate(time = as.numeric(time)) -> erp_data
+```
+
+```{r}
+erp_data
+```
+
+
+---.smallcode
+
+## Create informative ERP plots
+
+### Load the data from the ERP library
+
+```{r}
+library(ERP)
+data(erpcz)
+erp_data<-as.tibble(erpcz)
+```
+
+### Wrangle the data to get the following tibble
+
+```{r}
+erp_data %>%
+  gather(key = x_time, value=amplitude, -Subject, -Instruction) %>%
+  separate(col = x_time, into=c("x","time"), sep="X") %>%
+  mutate(time = as.numeric(time)) ->erp_data
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+First create this non-informative plot of the group-averaged ERP
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px", echo = FALSE}
+erp_data %>% 
+  group_by(Instruction, time) %>%
+  summarise(Mean=mean(amplitude)) %>%
+ggplot(aes(x=time, y = Mean, color= Instruction, fill = Instruction)) + 
+  geom_line(size = 3) +
+  theme_bw() + 
+  theme(text = element_text(size = 28))
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+First create this non-informative plot of the group-averaged ERP
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="450px"}
+erp_data %>% 
+  group_by(Instruction, time) %>%
+  summarise(Mean=mean(amplitude)) %>%
+ggplot(aes(x=time, y = Mean, color= Instruction, fill = Instruction)) + 
+  geom_line(size = 3) +
+  theme_bw()  + 
+  theme(text = element_text(size = 28))
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+Now let's add the individual ERPs in the background
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="680px", echo = FALSE}
+
+erp_data %>% 
+  group_by(Instruction, time) %>%
+  summarise(Mean=mean(amplitude)) -> mean_erp_data
+
+ggplot(erp_data, aes(x=time, y = amplitude, color= Instruction)) + 
+  geom_line(aes(color= Instruction, group = interaction(Subject, Instruction)), alpha = 0.5, size =0.2) +
+  geom_line(data = mean_erp_data, aes(y=Mean), size =2) +
+  theme_bw()  + 
+  theme(text = element_text(size = 28))
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+Now let's add the individual ERPs in the background
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="480px"}
+
+erp_data %>% 
+  group_by(Instruction, time) %>%
+  summarise(Mean=mean(amplitude)) -> mean_erp_data
+
+ggplot(erp_data, aes(x=time, y = amplitude, color= Instruction)) + 
+  geom_line(aes(color= Instruction, group = interaction(Subject, Instruction)), alpha = 0.5, size =0.2) +
+  geom_line(data = mean_erp_data, aes(y=Mean), size =2) +
+  theme_bw() + 
+  theme(text = element_text(size = 28))
+```
+
+
+---.smallcode
+
+## Create informative ERP plots - differences
+
+Compute the difference between conditions
+
+```{r, eval = FALSE}
+erp_data %>% 
+  spread(key = , value = ) %>%
+  mutate() -> diff_erp_data
+diff_erp_data
+```
+
+```{r, echo = FALSE}
+erp_data %>% 
+  spread(key = Instruction, value = amplitude) %>%
+  mutate(amplitude_diff = TBR - TBF) -> diff_erp_data
+diff_erp_data
+```
+
+---.smallcode
+
+## Create informative ERP plots - differences
+
+Compute the difference between conditions
+
+```{r}
+erp_data %>% 
+  spread(key = Instruction, value = amplitude) %>%
+  mutate(amplitude_diff = TBR - TBF) -> diff_erp_data
+diff_erp_data
+```
+
+---.smallcode
+
+## Create informative ERP plots - differences
+
+Compute non-parametric confidence intervals using bootstrapping
+
+* load the `rcompanion` library
+
+```{r}
+library(rcompanion)
+
+```
+
+---.smallcode
+
+## Create informative ERP plots - differences
+
+Compute non-parametric confidence intervals using bootstrapping
+
+* Compute the ajusted bootstrapped percentile confidence intervals
+```{r}
+erp_boot_data <- groupwiseMean(amplitude_diff ~ time ,
+              data   = diff_erp_data,
+              conf   = 0.95,
+              digits = 3,
+              R      = 1000,
+              boot        = TRUE,
+              traditional = FALSE,
+              normal      = FALSE,
+              basic       = FALSE,
+              percentile  = FALSE,
+              bca         = TRUE)
+head(erp_boot_data)
+```
+
+
+---.smallcode
+
+## Create informative ERP plots
+
+Create this plot using `geom_ribbon` to visualize the confidence intervals
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="580px", echo = FALSE}
+ggplot(erp_boot_data, aes(x=time, y = Mean)) + 
+  geom_hline(yintercept = 0, color='red') +
+  geom_ribbon(aes(ymin= Bca.lower, ymax= Bca.upper), alpha = 0.2) + 
+  geom_line() +
+  theme_bw()
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+Create this plot using `geom_ribbon` to visualize the confidence intervals
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="480px"}
+ggplot(erp_boot_data, aes(x=time, y = Mean)) + 
+  geom_hline(yintercept = 0, color='red') +
+  geom_ribbon(aes(ymin= Bca.lower, ymax= Bca.upper), alpha = 0.2) + 
+  geom_line() +
+  theme_bw()
+```
+
+
+---.smallcode
+
+## Create informative ERP plots
+
+Modify your plot to add individual differences in ERP response
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="580px", echo = FALSE}
+
+ggplot(erp_boot_data, aes(x=time, y = Mean)) + 
+  geom_hline(yintercept = 0, color='red') +
+  geom_line(data=diff_erp_data, aes(x=time, y=amplitude_diff, group = Subject ), color= "light gray", size =0.2) +
+  geom_ribbon(aes(ymin= Bca.lower, ymax= Bca.upper), fill= NA, color = "blue",size = 1) + 
+  geom_line(size = 2, color = "blue") +
+  theme_bw()
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+Modify your plot to add individual differences in ERP response
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="480px"}
+
+ggplot(erp_boot_data, aes(x=time, y = Mean)) + 
+  geom_hline(yintercept = 0, color='red') +
+  geom_line(data=diff_erp_data, aes(x=time, y=amplitude_diff, group = Subject ), color= "light gray", size =0.2) +
+  geom_ribbon(aes(ymin= Bca.lower, ymax= Bca.upper), fill= NA, color = "blue",size = 1) + 
+  geom_line(size = 2, color = "blue") +
+  theme_bw()
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+Time-course of individual differences with colors mapping amplitudes
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="580px", echo = FALSE}
+
+library(viridis)
+
+ggplot(diff_erp_data, aes(x=time, y = Subject)) + 
+  geom_raster(aes(fill = amplitude_diff)) +
+  scale_x_continuous( limits = c(0,1000),expand = c(0, 0)) +
+  scale_y_discrete( expand = c(0, 0)) +
+  scale_fill_viridis() +
+  theme_bw()
+```
+
+---.smallcode
+
+## Create informative ERP plots
+
+Time-course of individual differences with colors mapping amplitudes
+
+```{r, fig.width=15,fig.height=10, fig.align="center",out.width="400px"}
+
+library(viridis)
+
+ggplot(diff_erp_data, aes(x=time, y = Subject)) + 
+  geom_raster(aes(fill = amplitude_diff)) +
+  scale_x_continuous( limits = c(0,1000),expand = c(0, 0)) +
+  scale_y_discrete( expand = c(0, 0)) +
+  scale_fill_viridis() +
+  theme_bw()
+```
+
+
+---
+
+## Session 3 - Using R to run reproducible data analysis
+
+### Project structure
+
+### Importing data
+
+### Visualizing data
+
+### Reporting results
+
+### Making informative plots with ggplot
+
+
+---
+
+## Making informative plots with ggplot
+
+### Be able to use *geoms*
+* Use `geom_col()` to visualize counts
+* Use `geom_line()` to link selected data points
+* Use `geom_ribbon()` to visualize confidence intervals
+* Use `geom_raster()` to make heatmaps
+
+
+### Be able to modify a plot to improve visualization
+* transform axes or color scales
+* use `theme()` to modify text size
+* Use `xlab()`, `ylab()`, `ggtitle()`
+
